@@ -1,5 +1,6 @@
 # History/Progress（履歴・成長画面）
 
+**Issue**: [#14](https://github.com/Ryoma0101/eng-agent/issues/14)  
 **ファイル**: `src/app/(protected)/history/page.tsx`  
 **優先度**: Phase 3（継続性）  
 **実装時間**: 50分
