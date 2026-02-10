@@ -12,11 +12,13 @@ description: shadcn/uiコンポーネントをプロジェクトに追加する�
 ## コンポーネント追加コマンド
 
 // turbo
+
 ```bash
 pnpm dlx shadcn@latest add {component-name}
 ```
 
 例:
+
 ```bash
 pnpm dlx shadcn@latest add textarea badge alert skeleton progress separator avatar scroll-area
 ```

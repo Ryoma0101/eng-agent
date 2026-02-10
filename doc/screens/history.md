@@ -52,14 +52,14 @@
 
 ### Phase 3: 継続性（時間あれば）
 
-| 要素 | コンポーネント | 内容 |
-|------|----------------|------|
-| **タイトル** | `<h1>` | 「📊 あなたの成長記録」 |
-| **スコア推移グラフ** | Recharts | 折れ線グラフ |
-| **弱点分析** | `Card` | 「Grammar が低い」など |
-| **履歴リスト** | `Card` ×N | 日付、スコア、難易度 |
-| **詳細ボタン** | `Button` | クリックで `/result?submissionId=...` |
-| **戻るボタン** | `Button` | Dashboard へ |
+| 要素                 | コンポーネント | 内容                                  |
+| -------------------- | -------------- | ------------------------------------- |
+| **タイトル**         | `<h1>`         | 「📊 あなたの成長記録」               |
+| **スコア推移グラフ** | Recharts       | 折れ線グラフ                          |
+| **弱点分析**         | `Card`         | 「Grammar が低い」など                |
+| **履歴リスト**       | `Card` ×N      | 日付、スコア、難易度                  |
+| **詳細ボタン**       | `Button`       | クリックで `/result?submissionId=...` |
+| **戻るボタン**       | `Button`       | Dashboard へ                          |
 
 ---
 
@@ -102,7 +102,7 @@ const [loading, setLoading] = useState(true);
 useEffect(() => {
   async function fetchHistory() {
     const user = auth.currentUser;
-    const data = await fetch(`/api/submissions?userId=${user.uid}`).then(r => r.json());
+    const data = await fetch(`/api/submissions?userId=${user.uid}`).then((r) => r.json());
     setHistory(data.submissions);
     setStats(data.stats);
     setLoading(false);
@@ -115,10 +115,10 @@ useEffect(() => {
 
 ## 🧭 ナビゲーション
 
-| アクション | 遷移先 |
-|-----------|-------|
+| アクション     | 遷移先                      |
+| -------------- | --------------------------- |
 | **詳細を見る** | `/result?submissionId={id}` |
-| **戻る** | `/dashboard` |
+| **戻る**       | `/dashboard`                |
 
 ---
 
@@ -175,9 +175,7 @@ export default function HistoryPage() {
   useEffect(() => {
     async function fetchHistory() {
       const user = auth.currentUser;
-      const data = await fetch(`/api/submissions?userId=${user.uid}`).then((r) =>
-        r.json()
-      );
+      const data = await fetch(`/api/submissions?userId=${user.uid}`).then((r) => r.json());
       setHistory(data.submissions);
       setLoading(false);
     }
@@ -194,9 +192,7 @@ export default function HistoryPage() {
         {/* スコア推移グラフ（Phase 3で実装） */}
         <Card className="mb-6 p-6">
           <h3 className="mb-4 font-semibold">スコア推移</h3>
-          <div className="h-48 text-center text-slate-400">
-            グラフ実装予定（Recharts）
-          </div>
+          <div className="h-48 text-center text-slate-400">グラフ実装予定（Recharts）</div>
         </Card>
 
         {/* 弱点分析（Phase 3で実装） */}
@@ -227,9 +223,7 @@ export default function HistoryPage() {
                 <Button
                   size="sm"
                   variant="outline"
-                  onClick={() =>
-                    router.push(`/result?submissionId=${entry.submissionId}`)
-                  }
+                  onClick={() => router.push(`/result?submissionId=${entry.submissionId}`)}
                 >
                   詳細
                 </Button>

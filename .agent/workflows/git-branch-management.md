@@ -39,6 +39,7 @@ chore(scope): 説明       # 依存関係更新等
 ```
 
 例:
+
 ```bash
 git commit -m "feat(dashboard): Dashboard画面のレイアウト実装"
 ```

@@ -32,6 +32,7 @@ pnpm dlx shadcn@latest add {component-name}
 3. **画面のドキュメントを確認**
 
 `doc/screens/{screen-name}.md` を読み、以下を把握：
+
 - レイアウト構成
 - 使用コンポーネント
 - 必要な状態管理
@@ -53,11 +54,13 @@ pnpm dlx shadcn@latest add {component-name}
 6. **ビルド＆Lint確認**
 
 // turbo
+
 ```bash
 pnpm lint
 ```
 
 // turbo
+
 ```bash
 pnpm build
 ```
@@ -69,6 +72,7 @@ pnpm dev
 ```
 
 ブラウザで `http://localhost:3000/{screen-name}` を開き、以下を確認：
+
 - レイアウトが崩れていないか
 - モバイル（375px）とデスクトップ（1280px）のレスポンシブ
 - ボタン等のインタラクション

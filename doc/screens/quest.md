@@ -50,20 +50,20 @@
 
 ### 1. 問題文カード
 
-| 要素 | コンポーネント | 内容 |
-|------|----------------|------|
-| **タイトル** | `<h2>` | 「📝 Today's Quest」 |
-| **問題文** | `<p>` | クエストの全文 |
-| **字数指定** | `<p>` | 「150-200 words」 |
-| **難易度** | `Badge` | 「Medium」 |
+| 要素         | コンポーネント | 内容                 |
+| ------------ | -------------- | -------------------- |
+| **タイトル** | `<h2>`         | 「📝 Today's Quest」 |
+| **問題文**   | `<p>`          | クエストの全文       |
+| **字数指定** | `<p>`          | 「150-200 words」    |
+| **難易度**   | `Badge`        | 「Medium」           |
 
 ### 2. 入力フォーム
 
-| 要素 | コンポーネント | 内容 |
-|------|----------------|------|
-| **Textarea** | `Textarea` (shadcn) | 英作文入力 |
-| **文字数カウント** | `<p>` | 「87 / 150-200 words」 |
-| **Submitボタン** | `Button` | 「Submit for Scoring」 |
+| 要素               | コンポーネント      | 内容                   |
+| ------------------ | ------------------- | ---------------------- |
+| **Textarea**       | `Textarea` (shadcn) | 英作文入力             |
+| **文字数カウント** | `<p>`               | 「87 / 150-200 words」 |
+| **Submitボタン**   | `Button`            | 「Submit for Scoring」 |
 
 ---
 
@@ -73,7 +73,7 @@
 
 ```typescript
 const questId = searchParams.get('questId');
-const quest = await fetch(`/api/quests/${questId}`).then(r => r.json());
+const quest = await fetch(`/api/quests/${questId}`).then((r) => r.json());
 ```
 
 ### 2. 提出・採点
@@ -135,10 +135,10 @@ async function handleSubmit() {
 
 ## 🧭 ナビゲーション
 
-| アクション | 遷移先 |
-|-----------|-------|
+| アクション     | 遷移先                      |
+| -------------- | --------------------------- |
 | **Submit成功** | `/result?submissionId={id}` |
-| **戻る** | `/dashboard` |
+| **戻る**       | `/dashboard`                |
 
 ---
 

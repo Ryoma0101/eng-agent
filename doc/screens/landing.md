@@ -42,31 +42,31 @@
 
 ### 1. ヒーローセクション
 
-| 要素 | コンポーネント | 内容 |
-|------|----------------|------|
-| **見出し** | `<h1>` | 「AI英作文スコアリング」 |
-| **サブコピー** | `<p>` | 「英作文を"競技"として楽しみながら...」 |
-| **CTAボタン** | `Button` (shadcn) | 「Start Training」 |
+| 要素           | コンポーネント    | 内容                                    |
+| -------------- | ----------------- | --------------------------------------- |
+| **見出し**     | `<h1>`            | 「AI英作文スコアリング」                |
+| **サブコピー** | `<p>`             | 「英作文を"競技"として楽しみながら...」 |
+| **CTAボタン**  | `Button` (shadcn) | 「Start Training」                      |
 
 ### 2. 特徴カード（3つ）
 
 ```typescript
 const features = [
   {
-    icon: "🎯",
-    title: "AI採点",
-    description: "スコアリング"
+    icon: '🎯',
+    title: 'AI採点',
+    description: 'スコアリング',
   },
   {
-    icon: "💼",
-    title: "実務",
-    description: "エージェント"
+    icon: '💼',
+    title: '実務',
+    description: 'エージェント',
   },
   {
-    icon: "🏆",
-    title: "競技",
-    description: "楽しい学習"
-  }
+    icon: '🏆',
+    title: '競技',
+    description: '楽しい学習',
+  },
 ];
 ```
 
@@ -101,11 +101,11 @@ useEffect(() => {
 
 ## 🧭 ナビゲーション
 
-| アクション | 遷移先 |
-|-----------|-------|
-| **Start Training** | `/login` |
-| **Login** | `/login` |
-| **（認証済み）** | `/dashboard` へ自動遷移 |
+| アクション         | 遷移先                  |
+| ------------------ | ----------------------- |
+| **Start Training** | `/login`                |
+| **Login**          | `/login`                |
+| **（認証済み）**   | `/dashboard` へ自動遷移 |
 
 ---
 
@@ -168,20 +168,14 @@ export default function Landing() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 px-4">
       <main className="w-full max-w-4xl text-center">
-        <h1 className="text-5xl font-bold tracking-tight text-slate-900">
-          AI英作文スコアリング
-        </h1>
+        <h1 className="text-5xl font-bold tracking-tight text-slate-900">AI英作文スコアリング</h1>
         <p className="mt-4 text-lg text-slate-600">
           英作文を&quot;競技&quot;として楽しみながら、
           <br />
           実務で使えるアウトプットを生成
         </p>
 
-        <Button
-          size="lg"
-          className="mt-8"
-          onClick={() => router.push('/login')}
-        >
+        <Button size="lg" className="mt-8" onClick={() => router.push('/login')}>
           Start Training →
         </Button>
 
