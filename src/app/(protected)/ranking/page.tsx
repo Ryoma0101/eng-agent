@@ -33,24 +33,98 @@ const getInitials = (name: string) => {
     .slice(0, 2);
 };
 
-const DEMO_RANKING = [
-  { rank: 1, userId: 'user_alice', displayName: 'Alice Chen', score: 95 },
-  { rank: 2, userId: 'user_bob', displayName: 'Bob Smith', score: 92 },
-  { rank: 3, userId: 'user_charlie', displayName: 'Charlie Park', score: 89 },
-  { rank: 4, userId: 'current_user', displayName: 'You', score: 87 },
-  { rank: 5, userId: 'user_david', displayName: 'David Kim', score: 85 },
-  { rank: 6, userId: 'user_emma', displayName: 'Emma Wilson', score: 83 },
-  { rank: 7, userId: 'user_frank', displayName: 'Frank Lee', score: 81 },
-  { rank: 8, userId: 'user_grace', displayName: 'Grace Taylor', score: 79 },
-  { rank: 9, userId: 'user_henry', displayName: 'Henry Martinez', score: 77 },
-  { rank: 10, userId: 'user_ivy', displayName: 'Ivy Anderson', score: 75 },
-];
+const DEMO_RANKING = {
+  date: '2026-02-10',
+  totalUsers: 42,
+  topUsers: [
+    {
+      rank: 1,
+      userId: 'user_alice',
+      displayName: 'Alice Chen',
+      score: 95,
+      submissionCount: 2,
+      lastSubmittedAt: '2026-02-10T11:50:00Z',
+    },
+    {
+      rank: 2,
+      userId: 'user_bob',
+      displayName: 'Bob Smith',
+      score: 92,
+      submissionCount: 1,
+      lastSubmittedAt: '2026-02-10T10:30:00Z',
+    },
+    {
+      rank: 3,
+      userId: 'user_charlie',
+      displayName: 'Charlie Park',
+      score: 89,
+      submissionCount: 1,
+      lastSubmittedAt: '2026-02-10T10:10:00Z',
+    },
+    {
+      rank: 4,
+      userId: 'current_user',
+      displayName: 'You',
+      score: 87,
+      submissionCount: 1,
+      lastSubmittedAt: '2026-02-10T09:55:00Z',
+    },
+    {
+      rank: 5,
+      userId: 'user_david',
+      displayName: 'David Kim',
+      score: 85,
+      submissionCount: 1,
+      lastSubmittedAt: '2026-02-10T09:30:00Z',
+    },
+    {
+      rank: 6,
+      userId: 'user_emma',
+      displayName: 'Emma Wilson',
+      score: 83,
+      submissionCount: 1,
+      lastSubmittedAt: '2026-02-10T09:10:00Z',
+    },
+    {
+      rank: 7,
+      userId: 'user_frank',
+      displayName: 'Frank Lee',
+      score: 81,
+      submissionCount: 1,
+      lastSubmittedAt: '2026-02-10T08:45:00Z',
+    },
+    {
+      rank: 8,
+      userId: 'user_grace',
+      displayName: 'Grace Taylor',
+      score: 79,
+      submissionCount: 1,
+      lastSubmittedAt: '2026-02-10T08:20:00Z',
+    },
+    {
+      rank: 9,
+      userId: 'user_henry',
+      displayName: 'Henry Martinez',
+      score: 77,
+      submissionCount: 1,
+      lastSubmittedAt: '2026-02-10T08:05:00Z',
+    },
+    {
+      rank: 10,
+      userId: 'user_ivy',
+      displayName: 'Ivy Anderson',
+      score: 75,
+      submissionCount: 1,
+      lastSubmittedAt: '2026-02-10T07:50:00Z',
+    },
+  ],
+};
 
 const CURRENT_USER_ID = 'current_user';
 
 export default function RankingPage() {
   const router = useRouter();
-  const [ranking] = useState(DEMO_RANKING);
+  const [ranking] = useState(DEMO_RANKING.topUsers);
   const currentDate = new Date().toLocaleDateString('ja-JP', {
     year: 'numeric',
     month: 'long',
@@ -116,7 +190,7 @@ export default function RankingPage() {
           <div className="grid grid-cols-3 gap-6 text-center">
             <div className="space-y-1">
               <div className="text-3xl font-bold tracking-tight text-slate-900">
-                {ranking.length}
+                {DEMO_RANKING.totalUsers}
               </div>
               <div className="text-xs font-medium tracking-wider text-slate-500 uppercase">
                 Total Players
