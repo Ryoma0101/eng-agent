@@ -11,7 +11,6 @@ export const mockCurrentUser: User = {
   email: 'demo@example.com',
   displayName: 'Demo User',
   photoURL: null,
-  isAnonymous: false,
   totalScore: 342,
   submissionCount: 5,
   badge: null,
