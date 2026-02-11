@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import Header from '@/components/shared/Header';
 import UserInfo from '@/components/profile/UserInfo';
 import UserStats from '@/components/profile/UserStats';
@@ -11,6 +12,13 @@ import { ArrowLeft, LogOut } from 'lucide-react';
 import { mockUserProfile } from '@/lib/mock-data';
 
 export default function ProfilePage() {
+  const router = useRouter();
+
+  function handleLogout() {
+    // TODO: Firebase Auth連携
+    router.push('/login');
+  }
+
   return (
     <div className="min-h-screen bg-slate-50">
       <Header />
@@ -43,7 +51,7 @@ export default function ProfilePage() {
 
         {/* Actions */}
         <div className="flex gap-4">
-          <Button variant="destructive" className="gap-2">
+          <Button variant="destructive" className="gap-2" onClick={handleLogout}>
             <LogOut className="h-4 w-4" />
             ログアウト
           </Button>

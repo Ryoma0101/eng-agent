@@ -1,9 +1,17 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { PenLine, BarChart3, History, User } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { PenLine, BarChart3, History, User, LogOut } from 'lucide-react';
+import { mockCurrentUser } from '@/lib/mock-data';
 
 interface HeaderProps {
   demoMode?: boolean;
@@ -18,7 +26,19 @@ const navItems = (demoMode: boolean) => [
 
 export default function Header({ demoMode = false }: HeaderProps) {
   const pathname = usePathname();
+  const router = useRouter();
   const items = navItems(demoMode);
+
+  const initials = mockCurrentUser.displayName
+    .split(' ')
+    .map((n) => n[0])
+    .join('')
+    .toUpperCase();
+
+  function handleLogout() {
+    // TODO: Firebase Auth連携
+    router.push('/login');
+  }
 
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/80 backdrop-blur-sm">
@@ -49,13 +69,36 @@ export default function Header({ demoMode = false }: HeaderProps) {
           })}
         </nav>
 
-        {/* User Icon (placeholder) */}
+        {/* User Icon with Dropdown */}
         <div className="flex items-center gap-2">
-          <div
-            className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium ${demoMode ? 'bg-amber-200 text-amber-700' : 'bg-slate-200 text-slate-700'}`}
-          >
-            {demoMode ? 'デ' : 'D'}
-          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium transition-colors hover:ring-2 hover:ring-slate-300 ${demoMode ? 'bg-amber-200 text-amber-700' : 'bg-blue-100 text-blue-600'}`}
+              >
+                {demoMode ? 'デ' : initials}
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              <div className="px-2 py-1.5">
+                <p className="text-sm font-medium text-slate-900">{mockCurrentUser.displayName}</p>
+                <p className="text-xs text-slate-500">{mockCurrentUser.email}</p>
+              </div>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => router.push('/profile')} className="cursor-pointer">
+                <User className="mr-2 h-4 w-4" />
+                プロフィール
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={handleLogout}
+                className="cursor-pointer text-red-600 focus:text-red-600"
+              >
+                <LogOut className="mr-2 h-4 w-4" />
+                ログアウト
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           {demoMode && <span className="text-sm font-medium text-amber-600">デモモード</span>}
         </div>
       </div>
