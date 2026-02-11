@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 
@@ -23,8 +24,8 @@ export default function Home() {
             </p>
 
             <div className="flex flex-col gap-3 sm:flex-row">
-              <Button size="lg" className="rounded-lg">
-                スタートする
+              <Button asChild size="lg" className="rounded-lg">
+                <Link href="/result">スタートする</Link>
               </Button>
               <Button variant="outline" size="lg" className="rounded-lg">
                 詳細を見る
