@@ -72,3 +72,22 @@ export interface UserStats {
   rank: number;
   streak: number;
 }
+
+// --- User Profile ---
+export interface UserProfile {
+  uid: string;
+  displayName: string;
+  email: string | null;
+  photoURL: string | null;
+  totalSubmissions: number;
+  averageScore: number;
+  streak: number;
+  badges: { id: string; label: string; icon: string }[];
+  createdAt: string;
+  scoreBreakdown: {
+    grammar: number; // 0-25 平均
+    logic: number;
+    context: number;
+    fluency: number;
+  };
+}

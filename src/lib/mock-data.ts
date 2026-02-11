@@ -3,7 +3,7 @@
 // 将来的に API 呼び出しに差し替え
 // ============================================================
 
-import type { Quest, Submission, User, DailyLeaderboard, UserStats } from '@/types';
+import type { Quest, Submission, User, DailyLeaderboard, UserStats, UserProfile } from '@/types';
 
 // --- 現在のユーザー ---
 export const mockCurrentUser: User = {
@@ -99,6 +99,29 @@ export const mockRecentSubmissions: Submission[] = [
     processingTime: 2100,
   },
 ];
+
+// --- プロフィール ---
+export const mockUserProfile: UserProfile = {
+  uid: 'user_current',
+  displayName: 'Demo User',
+  email: 'demo@example.com',
+  photoURL: null,
+  totalSubmissions: 12,
+  averageScore: 86,
+  streak: 5,
+  badges: [
+    { id: 'first_submission', label: '初提出', icon: '🎯' },
+    { id: '10_submissions', label: '10回達成', icon: '📝' },
+    { id: 'high_score', label: '高得点', icon: '🏆' },
+  ],
+  createdAt: '2026-02-05T00:00:00Z',
+  scoreBreakdown: {
+    grammar: 22,
+    logic: 23,
+    context: 20,
+    fluency: 21,
+  },
+};
 
 // --- 提出履歴（History 用） ---
 export const mockSubmissionHistory: Submission[] = [
