@@ -6,8 +6,7 @@ import Header from '@/components/shared/Header';
 import ScoreSummary from '@/components/result/ScoreSummary';
 import ScoreBreakdown from '@/components/result/ScoreBreakdown';
 import FeedbackCard from '@/components/result/FeedbackCard';
-import CorrectedVersion from '@/components/result/CorrectedVersion';
-import PhraseExtraction from '@/components/result/PhraseExtraction';
+
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Home } from 'lucide-react';
 import { mockRecentSubmissions } from '@/lib/mock-data';
@@ -64,12 +63,6 @@ export default function ResultPage() {
 
           {/* AI Feedback */}
           <FeedbackCard feedback={result.feedback} />
-
-          {/* Phase 2: 添削済み完成版 & フレーズ抽出 */}
-          <div className="grid gap-6 md:grid-cols-2">
-            <CorrectedVersion />
-            <PhraseExtraction />
-          </div>
 
           {/* ナビゲーション */}
           <div className="flex flex-wrap items-center justify-between gap-4 border-t border-slate-200 pt-6">
