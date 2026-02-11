@@ -1,5 +1,6 @@
 # Landing（トップ画面）
 
+**Issue**: [#1](https://github.com/Ryoma0101/eng-agent/issues/1)  
 **ファイル**: `src/app/(public)/page.tsx`  
 **優先度**: 高  
 **実装時間**: 30分

@@ -1,5 +1,6 @@
 # Ranking（ランキング画面）
 
+**Issue**: [#2](https://github.com/Ryoma0101/eng-agent/issues/2)  
 **ファイル**: `src/app/(protected)/ranking/page.tsx`  
 **優先度**: Phase 2（競技性）  
 **実装時間**: 40分
@@ -62,19 +63,30 @@
 ### 1. ランキング取得
 
 ```typescript
-const today = new Date().toISOString().split('T')[0]; // "2026-02-10"
-const ranking = await fetch(`/api/leaderboards?date=${today}`).then(r => r.json());
+const ranking = await fetch('/api/leaderboard/daily?limit=10&offset=0').then(r => r.json());
 
 // レスポンス例
 {
   date: "2026-02-10",
-  rankings: [
-    { rank: 1, userId: "user_alice", displayName: "Alice", score: 95 },
-    { rank: 2, userId: "user_bob", displayName: "Bob", score: 92 },
-    { rank: 3, userId: "user_charlie", displayName: "Charlie", score: 89 },
-    { rank: 4, userId: "user_me", displayName: "You", score: 87 },
-    ...
-  ]
+  topUsers: [
+    {
+      rank: 1,
+      userId: "user_alice",
+      displayName: "Alice",
+      score: 95,
+      submissionCount: 2,
+      lastSubmittedAt: "2026-02-10T11:50:00Z"
+    },
+    {
+      rank: 2,
+      userId: "user_bob",
+      displayName: "Bob",
+      score: 92,
+      submissionCount: 1,
+      lastSubmittedAt: "2026-02-10T10:30:00Z"
+    }
+  ],
+  totalUsers: 42
 }
 ```
 
