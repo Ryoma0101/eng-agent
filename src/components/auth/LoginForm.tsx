@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Chrome, Loader2 } from 'lucide-react';
+import { Chrome, Loader2, User } from 'lucide-react';
 
 export default function LoginForm() {
   const [loading, setLoading] = useState(false);
@@ -19,6 +19,19 @@ export default function LoginForm() {
       window.location.href = '/dashboard';
     } catch {
       setError('ログインに失敗しました。もう一度お試しください。');
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleDemoLogin() {
+    try {
+      setLoading(true);
+      setError(null);
+      // デモモード用のページに遷移
+      window.location.href = '/demo/dashboard';
+    } catch {
+      setError('デモモードの起動に失敗しました。もう一度お試しください。');
     } finally {
       setLoading(false);
     }
@@ -42,10 +55,33 @@ export default function LoginForm() {
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Chrome className="h-4 w-4" />}
           Googleでログイン
         </Button>
+
+        <div className="relative my-4">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-slate-200"></div>
+          </div>
+          <div className="relative flex justify-center text-xs uppercase">
+            <span className="bg-white px-2 text-slate-500">または</span>
+          </div>
+        </div>
+
+        <Button
+          variant="outline"
+          className="w-full gap-2"
+          size="lg"
+          onClick={handleDemoLogin}
+          disabled={loading}
+        >
+          <User className="h-4 w-4" />
+          デモモードで試す
+        </Button>
       </div>
 
       <p className="mt-6 text-center text-xs text-slate-400">
         Googleアカウントでログインすると、進捗が保存されランキングに参加できます
+      </p>
+      <p className="mt-2 text-center text-xs text-slate-400">
+        デモモードではサンプルデータを使用し、進捗は保存されません
       </p>
     </Card>
   );
