@@ -17,7 +17,7 @@ export default function WordCounter({ wordCount, wordCountMin, wordCountMax }: W
 
   return (
     <div className={`text-sm ${getColor()}`}>
-      文字数: {wordCount} / {wordCountMin}-{wordCountMax} words
+      単語数: {wordCount} / {wordCountMin}-{wordCountMax} words
       {wordCount > 0 && isUnder && (
         <span className="ml-2">（あと {wordCountMin - wordCount} words）</span>
       )}

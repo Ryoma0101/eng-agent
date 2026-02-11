@@ -23,7 +23,7 @@ export default function QuestPage() {
 
   async function handleSubmit() {
     if (wordCount < quest.wordCountMin || wordCount > quest.wordCountMax) {
-      setError(`字数は ${quest.wordCountMin}-${quest.wordCountMax} words にしてください`);
+      setError(`単語数は ${quest.wordCountMin}-${quest.wordCountMax} words にしてください`);
       return;
     }
 
