@@ -5,27 +5,37 @@ import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { PenLine, BarChart3, History, User } from 'lucide-react';
 
-const navItems = [
-  { href: '/dashboard', label: 'Dashboard', icon: PenLine },
-  { href: '/ranking', label: 'Ranking', icon: BarChart3 },
+interface HeaderProps {
+  demoMode?: boolean;
+}
+
+const navItems = (demoMode: boolean) => [
+  { href: demoMode ? '/demo/dashboard' : '/dashboard', label: 'Dashboard', icon: PenLine },
+  { href: demoMode ? '/demo/ranking' : '/ranking', label: 'Ranking', icon: BarChart3 },
   { href: '/history', label: 'History', icon: History },
   { href: '/profile', label: 'Profile', icon: User },
 ];
 
-export default function Header() {
+export default function Header({ demoMode = false }: HeaderProps) {
   const pathname = usePathname();
+  const items = navItems(demoMode);
 
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/80 backdrop-blur-sm">
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4">
         {/* Logo */}
-        <Link href="/dashboard" className="flex items-center gap-2">
-          <span className="text-lg font-bold text-slate-900">✍️ AI英作文スコアリング</span>
+        <Link
+          href={demoMode ? '/demo/dashboard' : '/dashboard'}
+          className="flex items-center gap-2"
+        >
+          <span className="text-lg font-bold text-slate-900">
+            ✍️ AI英作文スコアリング{demoMode && ' (デモ)'}
+          </span>
         </Link>
 
         {/* Navigation */}
         <nav className="hidden items-center gap-1 md:flex">
-          {navItems.map((item) => {
+          {items.map((item) => {
             const isActive = pathname === item.href;
             const Icon = item.icon;
             return (
@@ -41,15 +51,18 @@ export default function Header() {
 
         {/* User Icon (placeholder) */}
         <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-200 text-sm font-medium text-slate-700">
-            D
+          <div
+            className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium ${demoMode ? 'bg-amber-200 text-amber-700' : 'bg-slate-200 text-slate-700'}`}
+          >
+            {demoMode ? 'デ' : 'D'}
           </div>
+          {demoMode && <span className="text-sm font-medium text-amber-600">デモモード</span>}
         </div>
       </div>
 
       {/* Mobile Navigation */}
       <nav className="flex border-t border-slate-100 md:hidden">
-        {navItems.map((item) => {
+        {items.map((item) => {
           const isActive = pathname === item.href;
           const Icon = item.icon;
           return (
