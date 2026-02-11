@@ -1,5 +1,6 @@
 # Login/Auth（ログイン画面）
 
+**Issue**: [#3](https://github.com/Ryoma0101/eng-agent/issues/3)  
 **ファイル**: `src/app/(public)/login/page.tsx`  
 **優先度**: 高  
 **実装時間**: 40分
@@ -8,9 +9,9 @@
 
 ## 🎯 目的・役割
 
-- **ユーザー識別**: GoogleログインOR匿名ログイン
-- **参加障壁の低減**: 匿名ログイン推奨で気軽に開始
+- **ユーザー識別**: Googleログインによる認証
 - **Firebase Authとの統合**: 認証情報をグローバル管理
+- **参加障壁の低減**: シンプルなGoogleログインのみで開始
 
 ---
 
@@ -25,11 +26,10 @@
 │   │                               │    │
 │   │  [🔵 Googleでログイン]        │    │
 │   │                               │    │
-│   │  [👤 匿名でログイン]          │    │
-│   │                               │    │
 │   └───────────────────────────────┘    │
 │                                         │
-│   匿名ログインなら今すぐ開始できます    │
+│   Googleアカウントでログインすると、    │
+│   進捗が保存されランキングに参加できます│
 │                                         │
 └─────────────────────────────────────────┘
 ```
@@ -40,30 +40,34 @@
 
 ### 1. ログインカード
 
-| 要素                     | コンポーネント               | 内容                                   |
-| ------------------------ | ---------------------------- | -------------------------------------- |
-| **タイトル**             | `<h2>`                       | 「ログイン」                           |
-| **Googleログインボタン** | `Button`                     | 「Googleでログイン」                   |
-| **匿名ログインボタン**   | `Button` (variant="outline") | 「匿名でログイン」                     |
-| **注釈**                 | `<p>`                        | 「匿名ログインなら今すぐ開始できます」 |
+| 要素                     | コンポーネント | 内容                                                                         |
+| ------------------------ | -------------- | ---------------------------------------------------------------------------- |
+| **タイトル**             | `<h2>`         | 「ログイン」                                                                 |
+| **Googleログインボタン** | `Button`       | 「Googleでログイン」                                                         |
+| **注釈**                 | `<p>`          | 「Googleアカウントでログインすると、進捗が保存されランキングに参加できます」 |
 
 ---
 
 ## 🔌 データ取得/API呼び出し
 
-### Firebase Auth関数
+### 1. Firebase Auth 連携
 
 ```typescript
-// lib/firebase/auth.ts
-export async function signInWithGoogle() {
-  const provider = new GoogleAuthProvider();
-  const result = await signInWithPopup(auth, provider);
-  return result.user;
-}
+// 実装例（将来的に追加）
+import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { auth } from '@/lib/firebase/auth';
 
-export async function signInAnonymously() {
-  const result = await signInAnonymouslyFirebase(auth);
-  return result.user;
+const provider = new GoogleAuthProvider();
+
+async function handleGoogleLogin() {
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+    // ユーザー情報をFirestoreに保存 or 更新
+    router.push('/dashboard');
+  } catch (error) {
+    console.error('Googleログインエラー:', error);
+  }
 }
 ```
 
@@ -74,31 +78,6 @@ export async function signInAnonymously() {
 ```typescript
 const [loading, setLoading] = useState(false);
 const [error, setError] = useState<string | null>(null);
-const router = useRouter();
-
-async function handleGoogleLogin() {
-  try {
-    setLoading(true);
-    await signInWithGoogle();
-    router.push('/dashboard');
-  } catch (err) {
-    setError('ログインに失敗しました');
-  } finally {
-    setLoading(false);
-  }
-}
-
-async function handleAnonymousLogin() {
-  try {
-    setLoading(true);
-    await signInAnonymously();
-    router.push('/dashboard');
-  } catch (err) {
-    setError('ログインに失敗しました');
-  } finally {
-    setLoading(false);
-  }
-}
 ```
 
 ---
@@ -108,15 +87,14 @@ async function handleAnonymousLogin() {
 | アクション             | 遷移先                 |
 | ---------------------- | ---------------------- |
 | **Googleログイン成功** | `/dashboard`           |
-| **匿名ログイン成功**   | `/dashboard`           |
 | **ログイン失敗**       | エラー表示、画面留まる |
 
 ---
 
 ## 🎨 使用コンポーネント（shadcn/ui）
 
-- `Button` - ログインボタン
 - `Card` - ログインカード
+- `Button` - Googleログインボタン
 - `Alert` - エラー表示
 
 ---
@@ -128,21 +106,16 @@ src/
 ├── app/
 │   └── (public)/
 │       └── login/
-│           └── page.tsx             ← Login
+│           └── page.tsx             ← Loginページ
 │
 ├── components/
-│   ├── auth/
-│   │   └── LoginForm.tsx            ← ログインフォーム
-│   └── ui/
-│       ├── button.tsx
-│       ├── card.tsx
-│       └── alert.tsx
+│   └── auth/
+│       └── LoginForm.tsx            ← ログインフォーム
 │
 └── lib/
-    ├── firebase/
-    │   └── auth.ts                  ← Auth ヘルパー
-    └── hooks/
-        └── useAuth.ts               ← 認証状態フック
+    └── firebase/
+        ├── auth.ts                  ← Firebase Auth設定
+        └── config.ts                ← Firebase設定
 ```
 
 ---
@@ -150,73 +123,57 @@ src/
 ## 💻 実装例
 
 ```tsx
-// src/app/(public)/login/page.tsx
+// src/components/auth/LoginForm.tsx
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { signInWithGoogle, signInAnonymously } from '@/lib/firebase/auth';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Chrome, Loader2 } from 'lucide-react';
 
-export default function LoginPage() {
+export default function LoginForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const router = useRouter();
 
   async function handleGoogleLogin() {
     try {
       setLoading(true);
       setError(null);
-      await signInWithGoogle();
-      router.push('/dashboard');
-    } catch (err) {
-      setError('ログインに失敗しました');
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function handleAnon() {
-    try {
-      setLoading(true);
-      setError(null);
-      await signInAnonymously();
-      router.push('/dashboard');
-    } catch (err) {
-      setError('ログインに失敗しました');
+      // TODO: Firebase Auth連携
+      // await signInWithGoogle();
+      window.location.href = '/dashboard';
+    } catch {
+      setError('ログインに失敗しました。もう一度お試しください。');
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4">
-      <Card className="w-full max-w-md p-8">
-        <h2 className="mb-6 text-center text-2xl font-bold">ログイン</h2>
+    <Card className="w-full max-w-md p-8">
+      <div className="mb-6 text-center">
+        <h2 className="text-2xl font-bold text-slate-900">ログイン</h2>
+        <p className="mt-2 text-sm text-slate-500">Googleアカウントでトレーニングを開始</p>
+      </div>
 
-        {error && (
-          <Alert variant="destructive" className="mb-4">
-            <AlertDescription>{error}</AlertDescription>
-          </Alert>
-        )}
+      {error && (
+        <Alert variant="destructive" className="mb-4">
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      )}
 
-        <div className="space-y-4">
-          <Button className="w-full" onClick={handleGoogleLogin} disabled={loading}>
-            🔵 Googleでログイン
-          </Button>
+      <div className="space-y-3">
+        <Button className="w-full gap-2" size="lg" onClick={handleGoogleLogin} disabled={loading}>
+          {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Chrome className="h-4 w-4" />}
+          Googleでログイン
+        </Button>
+      </div>
 
-          <Button variant="outline" className="w-full" onClick={handleAnon} disabled={loading}>
-            👤 匿名でログイン
-          </Button>
-        </div>
-
-        <p className="mt-6 text-center text-sm text-slate-500">
-          匿名ログインなら今すぐ開始できます
-        </p>
-      </Card>
-    </div>
+      <p className="mt-6 text-center text-xs text-slate-400">
+        Googleアカウントでログインすると、進捗が保存されランキングに参加できます
+      </p>
+    </Card>
   );
 }
 ```
@@ -226,21 +183,21 @@ export default function LoginPage() {
 ## ✅ チェックリスト
 
 - [ ] Googleログインボタンが表示される
-- [ ] 匿名ログインボタンが表示される
 - [ ] Googleログイン成功で `/dashboard` へ遷移
-- [ ] 匿名ログイン成功で `/dashboard` へ遷移
 - [ ] エラー時に Alert が表示される
-- [ ] ローディング中はボタン無効化
+- [ ] ローディング状態が適切に表示される
 
 ---
 
 ## 🚀 実装優先度
 
-**Phase 1: MVP必須**
+- **必須**: Googleログイン機能
+- **任意**: Firebase Auth完全連携（初期はスタブ実装でも可）
 
 ---
 
-## 📚 参考
+## 📝 補足
 
-- Firebase Auth ドキュメント
-- shadcn/ui Alert コンポーネント
+- **初期実装**: スタブ実装（`window.location.href`）で進め、後でFirebase Auth連携
+- **エラーハンドリング**: ユーザーフレンドリーなエラーメッセージ表示
+- **レスポンシブ**: モバイル対応のデザイン

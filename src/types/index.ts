@@ -43,10 +43,9 @@ export interface Submission {
 // --- User ---
 export interface User {
   uid: string;
-  email: string | null;
+  email: string;
   displayName: string;
   photoURL: string | null;
-  isAnonymous: boolean;
   totalScore: number;
   submissionCount: number;
   badge: string | null;

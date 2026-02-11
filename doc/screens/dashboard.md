@@ -1,5 +1,6 @@
 # Dashboard（ホーム画面）
 
+**Issue**: [#13](https://github.com/Ryoma0101/eng-agent/issues/13)  
 **ファイル**: `src/app/(protected)/dashboard/page.tsx`  
 **優先度**: ★最重要  
 **実装時間**: 1時間
