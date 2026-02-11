@@ -49,7 +49,7 @@
 | **Frontend Framework** | Next.js 16 (App Router)      | SSR/SSG対応、DevX良好            |
 | **Language**           | TypeScript                   | 型安全性                         |
 | **UI Library**         | shadcn/ui + Tailwind CSS     | アクセシビリティ、カスタマイズ性 |
-| **Authentication**     | Firebase Auth                | Googleログイン、匿名ログイン対応 |
+| **Authentication**     | Firebase Auth                | Googleログイン対応               |
 | **Database**           | Firestore                    | リアルタイム、スキーマ柔軟性     |
 | **Backend**            | Next.js Route Handlers       | Node runtime、ストリーミング対応 |
 | **AI API**             | OpenAI GPT-4                 | 採点品質、JSON形式対応           |
@@ -66,10 +66,9 @@
 ```typescript
 {
   uid: string; // Firebase Auth UID
-  email: string | null; // メールアドレス（NULL if 匿名）
+  email: string; // メールアドレス
   displayName: string; // ユーザー表示名
   photoURL: string | null; // プロフィール画像
-  isAnonymous: boolean; // 匿名ユーザーフラグ
   totalScore: number; // 累積スコア
   submissionCount: number; // 提出回数
   badge: string | null; // 現在の称号
@@ -175,14 +174,14 @@
 
 #### `POST /api/auth/signin`
 
-ユーザーログイン（Google + 匿名対応）
+ユーザーログイン（Googleログイン）
 
 **リクエスト**
 
 ```json
 {
-  "provider": "google" | "anonymous",
-  "token": "idToken（Googleの場合）"
+  "provider": "google",
+  "token": "idToken"
 }
 ```
 
@@ -192,8 +191,7 @@
 {
   "uid": "user123",
   "email": "user@example.com",
-  "displayName": "User Name",
-  "isAnonymous": false
+  "displayName": "User Name"
 }
 ```
 
@@ -603,7 +601,7 @@ const OPENAI_TPM = 90000; // Tokens per minute
 ### 認証
 
 - Firebase Auth + JWT トークン検証
-- 匿名ユーザーは `uid` で識別
+- ユーザーは `uid` で識別
 - CORS設定：`https://yourdomain.com` のみ許可
 
 ### API呼び出しの保護
