@@ -123,6 +123,72 @@ export const mockUserProfile: UserProfile = {
   },
 };
 
+// --- 提出履歴（History 用） ---
+export const mockSubmissionHistory: Submission[] = [
+  {
+    submissionId: 'sub_001',
+    questId: '2026-02-10_quest001',
+    userId: 'user_current',
+    answer:
+      'The depreciation of the Japanese yen has multifaceted implications for export companies...',
+    wordCount: 175,
+    scores: { grammar: 22, logic: 24, context: 20, fluency: 21, total: 87 },
+    feedback: 'Good logical structure with clear three-perspective approach.',
+    submittedAt: '2026-02-10T09:30:00Z',
+    scoredAt: '2026-02-10T09:30:45Z',
+    processingTime: 2300,
+  },
+  {
+    submissionId: 'sub_002',
+    questId: '2026-02-09_quest001',
+    userId: 'user_current',
+    answer: 'Remote work has fundamentally changed how businesses operate...',
+    wordCount: 160,
+    scores: { grammar: 23, logic: 22, context: 21, fluency: 22, total: 88 },
+    feedback: 'Well-organized arguments with good use of business vocabulary.',
+    submittedAt: '2026-02-09T10:15:00Z',
+    scoredAt: '2026-02-09T10:15:38Z',
+    processingTime: 1900,
+  },
+  {
+    submissionId: 'sub_003',
+    questId: '2026-02-08_quest001',
+    userId: 'user_current',
+    answer:
+      'The integration of AI in customer service presents both opportunities and challenges...',
+    wordCount: 185,
+    scores: { grammar: 24, logic: 23, context: 22, fluency: 23, total: 92 },
+    feedback: 'Excellent grammar and natural flow.',
+    submittedAt: '2026-02-08T14:20:00Z',
+    scoredAt: '2026-02-08T14:20:52Z',
+    processingTime: 2100,
+  },
+  {
+    submissionId: 'sub_004',
+    questId: '2026-02-07_quest001',
+    userId: 'user_current',
+    answer: 'Global competition in the tech industry has intensified...',
+    wordCount: 170,
+    scores: { grammar: 21, logic: 20, context: 19, fluency: 20, total: 80 },
+    feedback: 'Solid writing but could benefit from more specific examples.',
+    submittedAt: '2026-02-07T11:00:00Z',
+    scoredAt: '2026-02-07T11:00:40Z',
+    processingTime: 2000,
+  },
+  {
+    submissionId: 'sub_005',
+    questId: '2026-02-06_quest001',
+    userId: 'user_current',
+    answer: 'Sustainable business practices are becoming essential...',
+    wordCount: 155,
+    scores: { grammar: 20, logic: 21, context: 18, fluency: 19, total: 78 },
+    feedback: 'Good attempt. Focus on strengthening vocabulary and context relevance.',
+    submittedAt: '2026-02-06T09:45:00Z',
+    scoredAt: '2026-02-06T09:45:35Z',
+    processingTime: 1800,
+  },
+];
+
 // --- ランキング ---
 export const mockDailyLeaderboard: DailyLeaderboard = {
   date: '2026-02-10',
