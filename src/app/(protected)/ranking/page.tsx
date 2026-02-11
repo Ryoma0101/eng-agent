@@ -1,28 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import Header from '@/components/shared/Header';
 import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, Trophy, TrendingUp } from 'lucide-react';
-
-// デモデータ - よりモダンなアバター生成関数
-const getAvatarColor = (rank: number) => {
-  const colors = [
-    'from-pink-400 to-rose-600',
-    'from-blue-400 to-cyan-600',
-    'from-purple-400 to-indigo-600',
-    'from-emerald-400 to-teal-600',
-    'from-orange-400 to-amber-600',
-    'from-violet-400 to-purple-600',
-    'from-sky-400 to-blue-600',
-    'from-fuchsia-400 to-pink-600',
-    'from-lime-400 to-green-600',
-    'from-red-400 to-rose-600',
-  ];
-  return colors[(rank - 1) % colors.length];
-};
+import { Trophy, TrendingUp, Users, Hash } from 'lucide-react';
 
 const getInitials = (name: string) => {
   return name
@@ -123,7 +105,6 @@ const DEMO_RANKING = {
 const CURRENT_USER_ID = 'current_user';
 
 export default function RankingPage() {
-  const router = useRouter();
   const [ranking] = useState(DEMO_RANKING.topUsers);
   const currentDate = new Date().toLocaleDateString('ja-JP', {
     year: 'numeric',
@@ -144,114 +125,91 @@ export default function RankingPage() {
     }
   };
 
-  const getMedalColor = (rank: number) => {
-    switch (rank) {
-      case 1:
-        return 'from-yellow-400 to-yellow-600 shadow-yellow-400/30';
-      case 2:
-        return 'from-slate-300 to-slate-500 shadow-slate-400/30';
-      case 3:
-        return 'from-orange-400 to-orange-600 shadow-orange-400/30';
-      default:
-        return '';
-    }
-  };
+  const currentUser = ranking.find((r) => r.userId === CURRENT_USER_ID);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
-      <div className="mx-auto max-w-4xl px-4 py-8 font-sans">
-        {/* Header */}
-        <div className="mb-8">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => router.push('/dashboard')}
-            className="mb-4 text-slate-600 hover:text-slate-900"
-          >
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Dashboard
-          </Button>
+    <div className="min-h-screen bg-slate-50">
+      <Header />
 
-          <div className="flex items-center gap-4">
-            <div className="relative rounded-2xl bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 p-3 shadow-lg shadow-blue-200">
-              <Trophy className="h-8 w-8 text-white" strokeWidth={2.5} />
-            </div>
-            <div>
-              <h1 className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 bg-clip-text text-4xl font-bold tracking-tight text-transparent">
-                Today&apos;s Leaderboard
-              </h1>
-              <p className="mt-1 text-sm font-medium text-slate-600">{currentDate}</p>
-            </div>
+      <main className="mx-auto max-w-4xl px-4 py-6">
+        {/* Title */}
+        <div className="mb-6 flex items-center gap-3">
+          <Trophy className="h-7 w-7 text-blue-600" />
+          <div>
+            <h1 className="text-3xl font-bold text-slate-900">今日のランキング</h1>
+            <p className="text-sm text-slate-500">{currentDate}</p>
           </div>
         </div>
 
-        {/* Stats Card */}
-        <Card className="mb-6 border-none bg-white/80 p-6 shadow-lg shadow-slate-200/50 backdrop-blur-sm">
-          <div className="grid grid-cols-3 gap-6 text-center">
-            <div className="space-y-1">
-              <div className="text-3xl font-bold tracking-tight text-slate-900">
-                {DEMO_RANKING.totalUsers}
+        {/* Stats */}
+        <div className="mb-6 grid grid-cols-3 gap-4">
+          <Card className="p-4">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50">
+                <Users className="h-5 w-5 text-blue-600" />
               </div>
-              <div className="text-xs font-medium tracking-wider text-slate-500 uppercase">
-                Total Players
-              </div>
-            </div>
-            <div className="space-y-1">
-              <div className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-3xl font-bold tracking-tight text-transparent">
-                {ranking.find((r) => r.userId === CURRENT_USER_ID)?.rank || '-'}
-              </div>
-              <div className="text-xs font-medium tracking-wider text-slate-500 uppercase">
-                Your Rank
+              <div>
+                <div className="text-2xl font-bold text-slate-900">{DEMO_RANKING.totalUsers}</div>
+                <div className="text-xs text-slate-500">参加者数</div>
               </div>
             </div>
-            <div className="space-y-1">
-              <div className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-3xl font-bold tracking-tight text-transparent">
-                {ranking.find((r) => r.userId === CURRENT_USER_ID)?.score || '-'}
+          </Card>
+          <Card className="p-4">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-green-50">
+                <Hash className="h-5 w-5 text-green-600" />
               </div>
-              <div className="text-xs font-medium tracking-wider text-slate-500 uppercase">
-                Your Score
+              <div>
+                <div className="text-2xl font-bold text-slate-900">
+                  {currentUser ? `#${currentUser.rank}` : '—'}
+                </div>
+                <div className="text-xs text-slate-500">あなたの順位</div>
               </div>
             </div>
-          </div>
-        </Card>
+          </Card>
+          <Card className="p-4">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-50">
+                <TrendingUp className="h-5 w-5 text-orange-600" />
+              </div>
+              <div>
+                <div className="text-2xl font-bold text-slate-900">
+                  {currentUser ? `${currentUser.score}pt` : '—'}
+                </div>
+                <div className="text-xs text-slate-500">あなたのスコア</div>
+              </div>
+            </div>
+          </Card>
+        </div>
 
         {/* Ranking List */}
-        <Card className="overflow-hidden border-none bg-white/80 shadow-lg shadow-slate-200/50 backdrop-blur-sm">
+        <Card>
+          <div className="p-4 pb-2">
+            <h3 className="font-semibold text-slate-900">ランキング TOP {ranking.length}</h3>
+          </div>
           <div className="divide-y divide-slate-100">
             {ranking.map((entry) => {
               const isCurrentUser = entry.userId === CURRENT_USER_ID;
               const medal = getMedalIcon(entry.rank);
-              const medalColor = getMedalColor(entry.rank);
-              const isTopThree = entry.rank <= 3;
 
               return (
                 <div
                   key={entry.userId}
-                  className={`group relative flex items-center gap-4 p-4 transition-all hover:bg-slate-50 ${
-                    isCurrentUser ? 'bg-gradient-to-r from-blue-50 to-purple-50' : ''
-                  } ${isTopThree ? 'py-5' : ''}`}
+                  className={`flex items-center gap-4 px-4 py-3 ${
+                    isCurrentUser ? 'bg-blue-50' : ''
+                  }`}
                 >
-                  {/* Rank Badge */}
-                  <div className="flex w-14 items-center justify-center">
-                    {isTopThree ? (
-                      <div
-                        className={`flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br shadow-lg ${medalColor}`}
-                      >
-                        <span className="text-xl font-bold text-white drop-shadow-sm">
-                          {entry.rank}
-                        </span>
-                      </div>
+                  {/* Rank */}
+                  <div className="flex w-10 items-center justify-center">
+                    {medal ? (
+                      <span className="text-xl">{medal}</span>
                     ) : (
-                      <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-sm font-semibold text-slate-600">
-                        {entry.rank}
-                      </div>
+                      <span className="text-sm font-semibold text-slate-500">{entry.rank}</span>
                     )}
                   </div>
 
                   {/* Avatar */}
-                  <div
-                    className={`flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br text-sm font-bold text-white shadow-md ${getAvatarColor(entry.rank)}`}
-                  >
+                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-200 text-xs font-bold text-slate-600">
                     {getInitials(entry.displayName)}
                   </div>
 
@@ -259,48 +217,31 @@ export default function RankingPage() {
                   <div className="flex-1">
                     <div className="flex items-center gap-2">
                       <span
-                        className={`text-base font-semibold tracking-tight ${
-                          isCurrentUser ? 'text-blue-900' : 'text-slate-900'
+                        className={`text-sm font-medium ${
+                          isCurrentUser ? 'text-blue-900' : 'text-slate-700'
                         }`}
                       >
                         {entry.displayName}
                       </span>
                       {isCurrentUser && (
-                        <Badge
-                          variant="secondary"
-                          className="bg-gradient-to-r from-blue-500 to-cyan-500 text-xs font-semibold text-white hover:from-blue-600 hover:to-cyan-600"
-                        >
-                          You
+                        <Badge variant="secondary" className="text-xs">
+                          あなた
                         </Badge>
                       )}
-                      {isTopThree && !isCurrentUser && (
-                        <TrendingUp className="h-4 w-4 text-emerald-500" strokeWidth={2.5} />
-                      )}
                     </div>
+                    <div className="text-xs text-slate-400">提出 {entry.submissionCount}回</div>
                   </div>
 
                   {/* Score */}
-                  <div className="flex items-center gap-2">
+                  <div className="text-right">
                     <div
-                      className={`text-right font-bold tracking-tight tabular-nums ${
-                        isCurrentUser
-                          ? 'text-2xl text-blue-600'
-                          : isTopThree
-                            ? 'text-xl text-slate-900'
-                            : 'text-lg text-slate-700'
+                      className={`text-lg font-bold ${
+                        isCurrentUser ? 'text-blue-600' : 'text-slate-900'
                       }`}
                     >
-                      {entry.score}
+                      {entry.score}pt
                     </div>
-                    <span className="text-sm font-medium text-slate-400">pts</span>
                   </div>
-
-                  {/* Medal */}
-                  {medal && (
-                    <div className="text-3xl transition-all duration-300 group-hover:scale-125 group-hover:rotate-12">
-                      {medal}
-                    </div>
-                  )}
                 </div>
               );
             })}
@@ -308,12 +249,10 @@ export default function RankingPage() {
         </Card>
 
         {/* Footer Note */}
-        <div className="mt-8 text-center">
-          <p className="text-sm font-medium text-slate-500">
-            Rankings update daily at midnight. Keep practicing to climb higher! 🚀
-          </p>
-        </div>
-      </div>
+        <p className="mt-6 text-center text-sm text-slate-400">
+          ランキングは毎日深夜に更新されます 🚀
+        </p>
+      </main>
     </div>
   );
 }
