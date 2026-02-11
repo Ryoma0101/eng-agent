@@ -47,14 +47,14 @@
 
 ## 📦 UI要素一覧
 
-| 要素 | コンポーネント | 内容 |
-|------|----------------|------|
-| **タイトル** | `<h1>` | 「🏆 Today's TOP 10」 |
-| **日付** | `<p>` | 「2026/02/10」 |
-| **ランキングリスト** | `Card` ×N | 順位、ユーザー名、スコア |
-| **メダル** | Emoji | 🥇🥈🥉 |
-| **自分のハイライト** | `bg-blue-100` | 自分の行を強調 |
-| **戻るボタン** | `Button` | Dashboard へ |
+| 要素                 | コンポーネント | 内容                     |
+| -------------------- | -------------- | ------------------------ |
+| **タイトル**         | `<h1>`         | 「🏆 Today's TOP 10」    |
+| **日付**             | `<p>`          | 「2026/02/10」           |
+| **ランキングリスト** | `Card` ×N      | 順位、ユーザー名、スコア |
+| **メダル**           | Emoji          | 🥇🥈🥉                   |
+| **自分のハイライト** | `bg-blue-100`  | 自分の行を強調           |
+| **戻るボタン**       | `Button`       | Dashboard へ             |
 
 ---
 
@@ -102,7 +102,7 @@ const [currentUserId, setCurrentUserId] = useState<string | null>(null);
 useEffect(() => {
   async function fetchRanking() {
     const today = new Date().toISOString().split('T')[0];
-    const data = await fetch(`/api/leaderboards?date=${today}`).then(r => r.json());
+    const data = await fetch(`/api/leaderboards?date=${today}`).then((r) => r.json());
     setRanking(data.rankings);
     setLoading(false);
   }
@@ -119,9 +119,9 @@ useEffect(() => {
 
 ## 🧭 ナビゲーション
 
-| アクション | 遷移先 |
-|-----------|-------|
-| **戻る** | `/dashboard` |
+| アクション | 遷移先       |
+| ---------- | ------------ |
+| **戻る**   | `/dashboard` |
 
 ---
 
@@ -179,9 +179,7 @@ export default function RankingPage() {
   useEffect(() => {
     async function fetchRanking() {
       const today = new Date().toISOString().split('T')[0];
-      const data = await fetch(`/api/leaderboards?date=${today}`).then((r) =>
-        r.json()
-      );
+      const data = await fetch(`/api/leaderboards?date=${today}`).then((r) => r.json());
       setRanking(data.rankings);
       setLoading(false);
     }
@@ -198,9 +196,7 @@ export default function RankingPage() {
     <div className="min-h-screen bg-slate-50 p-6">
       <div className="mx-auto max-w-2xl">
         <h1 className="mb-2 text-3xl font-bold">🏆 Today's TOP 10</h1>
-        <p className="mb-6 text-slate-600">
-          {new Date().toLocaleDateString('ja-JP')}
-        </p>
+        <p className="mb-6 text-slate-600">{new Date().toLocaleDateString('ja-JP')}</p>
 
         <Card className="mb-6">
           {ranking.map((entry, idx) => {

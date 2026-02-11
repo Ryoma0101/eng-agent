@@ -53,22 +53,22 @@
 
 ### Phase 1: MVP（必須）
 
-| 要素 | コンポーネント | 内容 |
-|------|----------------|------|
-| **タイトル** | `<h1>` | 「🎉 採点完了！」 |
-| **総合スコア** | `Card` | 「87/100」大きく表示 |
-| **スコア内訳** | `Card` | G/L/C/F 各スコア |
-| **AI Feedback** | `<p>` | フィードバック文章 |
-| **ナビゲーションボタン** | `Button` ×2 | Ranking, Dashboard |
+| 要素                     | コンポーネント | 内容                 |
+| ------------------------ | -------------- | -------------------- |
+| **タイトル**             | `<h1>`         | 「🎉 採点完了！」    |
+| **総合スコア**           | `Card`         | 「87/100」大きく表示 |
+| **スコア内訳**           | `Card`         | G/L/C/F 各スコア     |
+| **AI Feedback**          | `<p>`          | フィードバック文章   |
+| **ナビゲーションボタン** | `Button` ×2    | Ranking, Dashboard   |
 
 ### Phase 2: 完全版（時間あれば）
 
-| 要素 | コンポーネント | 内容 |
-|------|----------------|------|
-| **レーダーチャート** | Chart.js / Recharts | G/L/C/F 可視化 |
-| **添削済み完成版** | `<pre>` or Card | AI が修正した英文 |
-| **フレーズ抽出** | `Badge` ×N | 「使えるフレーズ」一覧 |
-| **Copyボタン** | `Button` | クリップボードにコピー |
+| 要素                 | コンポーネント      | 内容                   |
+| -------------------- | ------------------- | ---------------------- |
+| **レーダーチャート** | Chart.js / Recharts | G/L/C/F 可視化         |
+| **添削済み完成版**   | `<pre>` or Card     | AI が修正した英文      |
+| **フレーズ抽出**     | `Badge` ×N          | 「使えるフレーズ」一覧 |
+| **Copyボタン**       | `Button`            | クリップボードにコピー |
 
 ---
 
@@ -107,7 +107,7 @@ const [loading, setLoading] = useState(true);
 
 useEffect(() => {
   async function fetchResult() {
-    const data = await fetch(`/api/submissions/${submissionId}`).then(r => r.json());
+    const data = await fetch(`/api/submissions/${submissionId}`).then((r) => r.json());
     setResult(data);
     setLoading(false);
   }
@@ -119,11 +119,11 @@ useEffect(() => {
 
 ## 🧭 ナビゲーション
 
-| アクション | 遷移先 |
-|-----------|-------|
-| **ランキングを見る** | `/ranking` |
-| **ホームへ** | `/dashboard` |
-| **Copy** | クリップボードにコピー |
+| アクション           | 遷移先                 |
+| -------------------- | ---------------------- |
+| **ランキングを見る** | `/ranking`             |
+| **ホームへ**         | `/dashboard`           |
+| **Copy**             | クリップボードにコピー |
 
 ---
 
@@ -188,9 +188,7 @@ export default function ResultPage() {
 
   useEffect(() => {
     async function fetchResult() {
-      const data = await fetch(`/api/submissions/${submissionId}`).then((r) =>
-        r.json()
-      );
+      const data = await fetch(`/api/submissions/${submissionId}`).then((r) => r.json());
       setResult(data);
       setLoading(false);
     }
@@ -207,9 +205,7 @@ export default function ResultPage() {
         {/* 総合スコア */}
         <Card className="mb-6 p-8 text-center">
           <h2 className="mb-2 text-lg text-slate-600">総合スコア</h2>
-          <div className="text-6xl font-bold text-blue-600">
-            {result.scores.total}
-          </div>
+          <div className="text-6xl font-bold text-blue-600">{result.scores.total}</div>
           <div className="text-sm text-slate-500">/100</div>
         </Card>
 
@@ -247,9 +243,7 @@ export default function ResultPage() {
           <Button onClick={() => router.push('/ranking')} variant="outline">
             ランキングを見る
           </Button>
-          <Button onClick={() => router.push('/dashboard')}>
-            ホームへ
-          </Button>
+          <Button onClick={() => router.push('/dashboard')}>ホームへ</Button>
         </div>
       </div>
     </div>

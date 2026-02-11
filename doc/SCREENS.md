@@ -28,6 +28,7 @@
 
 ## 📱 画面一覧
 
+
 | 画面名 | パス | Issue | 優先度 | 実装時間 | 説明 |
 |--------|------|-------|--------|----------|------|
 | **Landing** | `/` | [#1](https://github.com/Ryoma0101/eng-agent/issues/1) | 高 | 30分 | 世界観提示＋ログイン誘導 |
@@ -44,6 +45,7 @@
 ## 🎯 実装優先度
 
 ### Phase 1: MVP（ハッカソン1日目）
+
 - [#1](https://github.com/Ryoma0101/eng-agent/issues/1) Landing
 - [#3](https://github.com/Ryoma0101/eng-agent/issues/3) Login/Auth
 - [#13](https://github.com/Ryoma0101/eng-agent/issues/13) Dashboard
@@ -158,10 +160,7 @@ colors: {
 
 ```typescript
 // components/shared/Navigation.tsx
-- Dashboard
-- Ranking
-- History
-- Profile
+-Dashboard - Ranking - History - Profile;
 ```
 
 ### ScoreCard（スコア表示）
@@ -180,16 +179,16 @@ props:
 
 各画面の詳細は `doc/screens/` に配置されています：
 
-| ファイル | 内容 |
-|----------|------|
-| [landing.md](screens/landing.md) | Landing（トップ）の詳細設計 |
-| [login.md](screens/login.md) | Login/Authの詳細設計 |
-| [dashboard.md](screens/dashboard.md) | Dashboard（ホーム）の詳細設計 |
-| [quest.md](screens/quest.md) | Quest（問題回答）の詳細設計 |
-| [result.md](screens/result.md) | Result（採点・添削）の詳細設計 |
-| [ranking.md](screens/ranking.md) | Rankingの詳細設計 |
-| [history.md](screens/history.md) | History/Progressの詳細設計 |
-| [profile.md](screens/profile.md) | Profileの詳細設計 |
+| ファイル                             | 内容                           |
+| ------------------------------------ | ------------------------------ |
+| [landing.md](screens/landing.md)     | Landing（トップ）の詳細設計    |
+| [login.md](screens/login.md)         | Login/Authの詳細設計           |
+| [dashboard.md](screens/dashboard.md) | Dashboard（ホーム）の詳細設計  |
+| [quest.md](screens/quest.md)         | Quest（問題回答）の詳細設計    |
+| [result.md](screens/result.md)       | Result（採点・添削）の詳細設計 |
+| [ranking.md](screens/ranking.md)     | Rankingの詳細設計              |
+| [history.md](screens/history.md)     | History/Progressの詳細設計     |
+| [profile.md](screens/profile.md)     | Profileの詳細設計              |
 
 ---
 
@@ -287,6 +286,7 @@ src/components/shared/Navigation.tsx
 時間が足りない場合の優先順位：
 
 ### 必須（削れない）
+
 - Landing
 - Login
 - Dashboard
@@ -294,9 +294,11 @@ src/components/shared/Navigation.tsx
 - Result（簡易版）
 
 ### 推奨（競技性のため）
+
 - Ranking
 
 ### 任意（削減可能）
+
 - ❌ History（グラフ等）
 - ❌ Profile（称号UI）
 - ❌ Result の高度な機能（レーダーチャート、フレーズ抽出）

@@ -41,12 +41,12 @@
 
 ### 1. ログインカード
 
-| 要素 | コンポーネント | 内容 |
-|------|----------------|------|
-| **タイトル** | `<h2>` | 「ログイン」 |
-| **Googleログインボタン** | `Button` | 「Googleでログイン」 |
-| **匿名ログインボタン** | `Button` (variant="outline") | 「匿名でログイン」 |
-| **注釈** | `<p>` | 「匿名ログインなら今すぐ開始できます」 |
+| 要素                     | コンポーネント               | 内容                                   |
+| ------------------------ | ---------------------------- | -------------------------------------- |
+| **タイトル**             | `<h2>`                       | 「ログイン」                           |
+| **Googleログインボタン** | `Button`                     | 「Googleでログイン」                   |
+| **匿名ログインボタン**   | `Button` (variant="outline") | 「匿名でログイン」                     |
+| **注釈**                 | `<p>`                        | 「匿名ログインなら今すぐ開始できます」 |
 
 ---
 
@@ -106,11 +106,11 @@ async function handleAnonymousLogin() {
 
 ## 🧭 ナビゲーション
 
-| アクション | 遷移先 |
-|-----------|-------|
-| **Googleログイン成功** | `/dashboard` |
-| **匿名ログイン成功** | `/dashboard` |
-| **ログイン失敗** | エラー表示、画面留まる |
+| アクション             | 遷移先                 |
+| ---------------------- | ---------------------- |
+| **Googleログイン成功** | `/dashboard`           |
+| **匿名ログイン成功**   | `/dashboard`           |
+| **ログイン失敗**       | エラー表示、画面留まる |
 
 ---
 
@@ -204,20 +204,11 @@ export default function LoginPage() {
         )}
 
         <div className="space-y-4">
-          <Button
-            className="w-full"
-            onClick={handleGoogleLogin}
-            disabled={loading}
-          >
+          <Button className="w-full" onClick={handleGoogleLogin} disabled={loading}>
             🔵 Googleでログイン
           </Button>
 
-          <Button
-            variant="outline"
-            className="w-full"
-            onClick={handleAnon}
-            disabled={loading}
-          >
+          <Button variant="outline" className="w-full" onClick={handleAnon} disabled={loading}>
             👤 匿名でログイン
           </Button>
         </div>

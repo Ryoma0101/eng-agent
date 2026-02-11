@@ -55,11 +55,11 @@
 
 ### 2. Today's Quest カード
 
-| 要素 | コンポーネント | 内容 |
-|------|----------------|------|
-| **タイトル** | `Card` header | 「📝 Today's Quest」 |
-| **問題文（抜粋）** | `<p>` | 最初の50文字 |
-| **CTAボタン** | `Button` | 「Start Quest →」 |
+| 要素               | コンポーネント | 内容                 |
+| ------------------ | -------------- | -------------------- |
+| **タイトル**       | `Card` header  | 「📝 Today's Quest」 |
+| **問題文（抜粋）** | `<p>`          | 最初の50文字         |
+| **CTAボタン**      | `Button`       | 「Start Quest →」    |
 
 ### 3. 統計カード（3つ）
 
@@ -91,20 +91,20 @@ const stats = [
 
 ```typescript
 // 1. 今日のクエストを取得
-const quest = await fetch('/api/quests/today').then(r => r.json());
+const quest = await fetch('/api/quests/today').then((r) => r.json());
 
 // 2. 今日の自分のスコアを取得
-const myScore = await fetch(`/api/users/${uid}/today-score`).then(r => r.json());
+const myScore = await fetch(`/api/users/${uid}/today-score`).then((r) => r.json());
 
 // 3. 今日のランキングから自分の順位を取得
-const ranking = await fetch('/api/leaderboard/daily').then(r => r.json());
-const myRank = ranking.topUsers.findIndex(u => u.userId === uid) + 1;
+const ranking = await fetch('/api/leaderboard/daily').then((r) => r.json());
+const myRank = ranking.topUsers.findIndex((u) => u.userId === uid) + 1;
 
 // 4. ストリーク（連続日数）
-const streak = await fetch(`/api/users/${uid}/streak`).then(r => r.json());
+const streak = await fetch(`/api/users/${uid}/streak`).then((r) => r.json());
 
 // 5. 最近の提出履歴（3件）
-const recent = await fetch(`/api/submissions?userId=${uid}&limit=3`).then(r => r.json());
+const recent = await fetch(`/api/submissions?userId=${uid}&limit=3`).then((r) => r.json());
 ```
 
 ---
@@ -139,13 +139,13 @@ useEffect(() => {
 
 ## 🧭 ナビゲーション
 
-| アクション | 遷移先 |
-|-----------|-------|
-| **Start Quest** | `/quest?questId={quest.questId}` |
-| **Ranking** | `/ranking` |
-| **History** | `/history` |
-| **Profile** | `/profile` |
-| **最近の提出クリック** | `/result?submissionId={sub.id}` |
+| アクション             | 遷移先                           |
+| ---------------------- | -------------------------------- |
+| **Start Quest**        | `/quest?questId={quest.questId}` |
+| **Ranking**            | `/ranking`                       |
+| **History**            | `/history`                       |
+| **Profile**            | `/profile`                       |
+| **最近の提出クリック** | `/result?submissionId={sub.id}`  |
 
 ---
 
@@ -224,16 +224,12 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 p-6">
-      <h1 className="mb-6 text-3xl font-bold">
-        こんにちは、{user?.displayName || 'User'}さん
-      </h1>
+      <h1 className="mb-6 text-3xl font-bold">こんにちは、{user?.displayName || 'User'}さん</h1>
 
       {/* Today's Quest */}
       <Card className="mb-6 p-6">
         <h2 className="mb-4 text-xl font-semibold">📝 Today's Quest</h2>
-        <p className="mb-4 text-slate-600">
-          {quest?.prompt.substring(0, 50)}...
-        </p>
+        <p className="mb-4 text-slate-600">{quest?.prompt.substring(0, 50)}...</p>
         <Button onClick={() => router.push(`/quest?questId=${quest?.questId}`)}>
           Start Quest →
         </Button>

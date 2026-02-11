@@ -47,14 +47,14 @@
 
 ## 📦 UI要素一覧
 
-| 要素 | コンポーネント | 内容 |
-|------|----------------|------|
-| **タイトル** | `<h1>` | 「👤 プロフィール」 |
-| **ユーザー情報** | `Card` | Avatar, Name, Email |
-| **実績** | `Card` | 提出回数、平均スコア、連続日数 |
-| **バッジ** | `Badge` ×N | 各種バッジ |
-| **ログアウトボタン** | `Button` | ログアウト → `/login` |
-| **戻るボタン** | `Button` | Dashboard へ |
+| 要素                 | コンポーネント | 内容                           |
+| -------------------- | -------------- | ------------------------------ |
+| **タイトル**         | `<h1>`         | 「👤 プロフィール」            |
+| **ユーザー情報**     | `Card`         | Avatar, Name, Email            |
+| **実績**             | `Card`         | 提出回数、平均スコア、連続日数 |
+| **バッジ**           | `Badge` ×N     | 各種バッジ                     |
+| **ログアウトボタン** | `Button`       | ログアウト → `/login`          |
+| **戻るボタン**       | `Button`       | Dashboard へ                   |
 
 ---
 
@@ -89,7 +89,7 @@ const [loading, setLoading] = useState(true);
 useEffect(() => {
   async function fetchProfile() {
     const user = auth.currentUser;
-    const data = await fetch(`/api/users/${user.uid}`).then(r => r.json());
+    const data = await fetch(`/api/users/${user.uid}`).then((r) => r.json());
     setProfile(data);
     setLoading(false);
   }
@@ -106,10 +106,10 @@ async function handleLogout() {
 
 ## 🧭 ナビゲーション
 
-| アクション | 遷移先 |
-|-----------|-------|
-| **ログアウト** | `/login` |
-| **戻る** | `/dashboard` |
+| アクション     | 遷移先       |
+| -------------- | ------------ |
+| **ログアウト** | `/login`     |
+| **戻る**       | `/dashboard` |
 
 ---
 
