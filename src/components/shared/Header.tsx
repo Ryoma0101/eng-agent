@@ -48,9 +48,8 @@ export default function Header({ demoMode = false }: HeaderProps) {
           href={demoMode ? '/demo/dashboard' : '/dashboard'}
           className="flex items-center gap-2"
         >
-          <span className="text-lg font-bold text-slate-900">
-            ✍️ AI英作文スコアリング{demoMode && ' (デモ)'}
-          </span>
+          <img src="/logo.svg" alt="EnQuest" className="h-8 w-8" />
+          <span className="text-lg font-bold text-slate-900">EnQuest{demoMode && ' (デモ)'}</span>
         </Link>
 
         {/* Navigation */}

@@ -9,9 +9,7 @@ export default function HeroSection() {
         ✍️ AI × 英作文 × 競技
       </div>
 
-      <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
-        AI英作文スコアリング
-      </h1>
+      <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">EnQuest</h1>
 
       <p className="max-w-lg text-center text-base leading-relaxed text-slate-600">
         英作文を&quot;競技&quot;として楽しみながら、

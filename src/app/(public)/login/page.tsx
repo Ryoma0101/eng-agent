@@ -18,7 +18,7 @@ export default function LoginPage() {
       </div>
 
       <div className="mb-6 text-center">
-        <h1 className="text-3xl font-bold text-slate-900">AI英作文スコアリング</h1>
+        <h1 className="text-3xl font-bold text-slate-900">EnQuest</h1>
         <p className="mt-2 text-slate-600">デモモードでアプリの機能を試してみましょう</p>
       </div>
 

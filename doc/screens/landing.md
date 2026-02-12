@@ -1,6 +1,6 @@
 # Landing（トップ画面）
 
-**Issue**: [#1](https://github.com/Ryoma0101/eng-agent/issues/1)  
+**Issue**: [#1](https://github.com/Ryoma0101/enquests/issues/1)  
 **ファイル**: `src/app/(public)/page.tsx`  
 **優先度**: 高  
 **実装時間**: 30分
@@ -22,7 +22,7 @@
 │  [Header]  Logo             [Login]     │
 ├─────────────────────────────────────────┤
 │                                         │
-│         🎯 AI英作文スコアリング          │
+│         🎯 EnQuest                  │
 │                                         │
 │   英作文を"競技"として楽しみながら、    │
 │   実務で使えるアウトプットを生成         │
@@ -45,7 +45,7 @@
 
 | 要素           | コンポーネント    | 内容                                    |
 | -------------- | ----------------- | --------------------------------------- |
-| **見出し**     | `<h1>`            | 「AI英作文スコアリング」                |
+| **見出し**     | `<h1>`            | 「EnQuest」                |
 | **サブコピー** | `<p>`             | 「英作文を"競技"として楽しみながら...」 |
 | **CTAボタン**  | `Button` (shadcn) | 「Start Training」                      |
 
@@ -169,7 +169,7 @@ export default function Landing() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 px-4">
       <main className="w-full max-w-4xl text-center">
-        <h1 className="text-5xl font-bold tracking-tight text-slate-900">AI英作文スコアリング</h1>
+        <h1 className="text-5xl font-bold tracking-tight text-slate-900">EnQuest</h1>
         <p className="mt-4 text-lg text-slate-600">
           英作文を&quot;競技&quot;として楽しみながら、
           <br />

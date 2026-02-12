@@ -1,6 +1,6 @@
 # Profile（プロフィール画面）
 
-**Issue**: [#15](https://github.com/Ryoma0101/eng-agent/issues/15)  
+**Issue**: [#15](https://github.com/Ryoma0101/enquests/issues/15)  
 **ファイル**: `src/app/(protected)/profile/page.tsx`  
 **優先度**: 任意（Phase 3）  
 **実装時間**: 30分

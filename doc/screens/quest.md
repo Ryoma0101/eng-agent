@@ -1,6 +1,6 @@
 # Quest（問題回答画面）
 
-**Issue**: [#4](https://github.com/Ryoma0101/eng-agent/issues/4)  
+**Issue**: [#4](https://github.com/Ryoma0101/enquests/issues/4)  
 **ファイル**: `src/app/(protected)/quest/page.tsx`  
 **優先度**: ★最重要（コア体験）  
 **実装時間**: 50分
