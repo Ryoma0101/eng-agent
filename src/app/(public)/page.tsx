@@ -10,7 +10,7 @@ export default function Home() {
     <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100">
       {/* Header */}
       <header className="fixed top-0 z-50 flex w-full items-center justify-between bg-white/80 px-6 py-3 backdrop-blur-sm">
-        <span className="text-lg font-bold text-slate-900">✍️ AI英作文スコアリング</span>
+        <span className="text-lg font-bold text-slate-900">✍️ EnQuest</span>
         <Link href="/login">
           <Button variant="outline" size="sm">
             ログイン
@@ -26,7 +26,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="mt-20 pb-8 text-center text-sm text-slate-400">
-        &copy; 2026 AI英作文スコアリング — Team 3
+        &copy; 2026 EnQuest — Team 3
       </footer>
     </div>
   );

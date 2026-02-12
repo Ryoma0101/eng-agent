@@ -1,6 +1,6 @@
 # Result（採点・添削画面）
 
-**Issue**: [#5](https://github.com/Ryoma0101/eng-agent/issues/5)  
+**Issue**: [#5](https://github.com/Ryoma0101/enquests/issues/5)  
 **ファイル**: `src/app/(protected)/result/page.tsx`  
 **優先度**: ★最重要（差別化ポイント）  
 **実装時間**: 1時間

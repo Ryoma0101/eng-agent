@@ -32,14 +32,14 @@
 
 | 画面名 | パス | Issue | 優先度 | 実装時間 | 説明 |
 |--------|------|-------|--------|----------|------|
-| **Landing** | `/` | [#1](https://github.com/Ryoma0101/eng-agent/issues/1) | 高 | 30分 | 世界観提示＋ログイン誘導 |
-| **Login/Auth** | `/login` | [#3](https://github.com/Ryoma0101/eng-agent/issues/3) | 高 | 40分 | ユーザー識別（Google/匿名） |
-| **Dashboard** | `/dashboard` | [#13](https://github.com/Ryoma0101/eng-agent/issues/13) | 最重要 | 1h | ハブ画面、今日のクエスト表示 |
-| **Quest** | `/quest` | [#4](https://github.com/Ryoma0101/eng-agent/issues/4) | 最重要 | 50分 | 英作文入力（コア体験） |
-| **Result** | `/result` | [#5](https://github.com/Ryoma0101/eng-agent/issues/5) | 最重要 | 1h | 採点結果＋添削表示（差別化） |
-| **Ranking** | `/ranking` | [#2](https://github.com/Ryoma0101/eng-agent/issues/2) | 高 | 45分 | デイリーランキング |
-| **History** | `/history` | [#14](https://github.com/Ryoma0101/eng-agent/issues/14) | 中 | 50分 | 過去スコア・成長可視化 |
-| **Profile** | `/profile` | [#15](https://github.com/Ryoma0101/eng-agent/issues/15) | 低 | 30分 | 称号・設定 |
+| **Landing** | `/` | [#1](https://github.com/Ryoma0101/enquests/issues/1) | 高 | 30分 | 世界観提示＋ログイン誘導 |
+| **Login/Auth** | `/login` | [#3](https://github.com/Ryoma0101/enquests/issues/3) | 高 | 40分 | ユーザー識別（Google/匿名） |
+| **Dashboard** | `/dashboard` | [#13](https://github.com/Ryoma0101/enquests/issues/13) | 最重要 | 1h | ハブ画面、今日のクエスト表示 |
+| **Quest** | `/quest` | [#4](https://github.com/Ryoma0101/enquests/issues/4) | 最重要 | 50分 | 英作文入力（コア体験） |
+| **Result** | `/result` | [#5](https://github.com/Ryoma0101/enquests/issues/5) | 最重要 | 1h | 採点結果＋添削表示（差別化） |
+| **Ranking** | `/ranking` | [#2](https://github.com/Ryoma0101/enquests/issues/2) | 高 | 45分 | デイリーランキング |
+| **History** | `/history` | [#14](https://github.com/Ryoma0101/enquests/issues/14) | 中 | 50分 | 過去スコア・成長可視化 |
+| **Profile** | `/profile` | [#15](https://github.com/Ryoma0101/enquests/issues/15) | 低 | 30分 | 称号・設定 |
 
 ---
 
@@ -47,19 +47,19 @@
 
 ### Phase 1: MVP（ハッカソン1日目）
 
-- [#1](https://github.com/Ryoma0101/eng-agent/issues/1) Landing
-- [#3](https://github.com/Ryoma0101/eng-agent/issues/3) Login/Auth
-- [#13](https://github.com/Ryoma0101/eng-agent/issues/13) Dashboard
-- [#4](https://github.com/Ryoma0101/eng-agent/issues/4) Quest
-- [#5](https://github.com/Ryoma0101/eng-agent/issues/5) Result（簡易版）
+- [#1](https://github.com/Ryoma0101/enquests/issues/1) Landing
+- [#3](https://github.com/Ryoma0101/enquests/issues/3) Login/Auth
+- [#13](https://github.com/Ryoma0101/enquests/issues/13) Dashboard
+- [#4](https://github.com/Ryoma0101/enquests/issues/4) Quest
+- [#5](https://github.com/Ryoma0101/enquests/issues/5) Result（簡易版）
 
 ### Phase 2: 競技性追加（2日目）
-- [#2](https://github.com/Ryoma0101/eng-agent/issues/2) Ranking
+- [#2](https://github.com/Ryoma0101/enquests/issues/2) Ranking
 - ⚠️ Result（完全版：レーダーチャート、フレーズ抽出）
 
 ### Phase 3: 継続性（3日目以降）
-- [#14](https://github.com/Ryoma0101/eng-agent/issues/14) History/Progress
-- [#15](https://github.com/Ryoma0101/eng-agent/issues/15) Profile
+- [#14](https://github.com/Ryoma0101/enquests/issues/14) History/Progress
+- [#15](https://github.com/Ryoma0101/enquests/issues/15) Profile
 
 ---
 

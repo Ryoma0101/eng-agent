@@ -1,6 +1,6 @@
 # Login/Auth（ログイン画面）
 
-**Issue**: [#3](https://github.com/Ryoma0101/eng-agent/issues/3)  
+**Issue**: [#3](https://github.com/Ryoma0101/enquests/issues/3)  
 **ファイル**: `src/app/(public)/login/page.tsx`  
 **優先度**: 高  
 **実装時間**: 40分

@@ -1,6 +1,6 @@
 # Ranking（ランキング画面）
 
-**Issue**: [#2](https://github.com/Ryoma0101/eng-agent/issues/2)  
+**Issue**: [#2](https://github.com/Ryoma0101/enquests/issues/2)  
 **ファイル**: `src/app/(protected)/ranking/page.tsx`  
 **優先度**: Phase 2（競技性）  
 **実装時間**: 40分

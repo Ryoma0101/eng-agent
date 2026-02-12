@@ -49,7 +49,7 @@ export default function Header({ demoMode = false }: HeaderProps) {
           className="flex items-center gap-2"
         >
           <span className="text-lg font-bold text-slate-900">
-            ✍️ AI英作文スコアリング{demoMode && ' (デモ)'}
+            ✍️ EnQuest{demoMode && ' (デモ)'}
           </span>
         </Link>
 
