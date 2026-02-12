@@ -11,6 +11,7 @@ export default function Home() {
       {/* Header */}
       <header className="fixed top-0 z-50 flex w-full items-center justify-between bg-white/80 px-6 py-3 backdrop-blur-sm">
         <Link href="/" className="flex items-center gap-2">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/logo.svg" alt="EnQuest" className="h-8 w-8" />
           <span className="text-lg font-bold text-slate-900">EnQuest</span>
         </Link>

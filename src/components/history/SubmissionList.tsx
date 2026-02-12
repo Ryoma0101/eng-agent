@@ -1,3 +1,7 @@
+'use client';
+
+import { useState } from 'react';
+import Link from 'next/link';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -7,6 +11,8 @@ import type { Submission } from '@/types';
 interface SubmissionListProps {
   submissions: Submission[];
 }
+
+const INITIAL_DISPLAY_COUNT = 5;
 
 // questId からタイトルを取得するヘルパー（モック用）
 const QUEST_TITLES: Record<string, string> = {
@@ -24,6 +30,8 @@ function getDifficultyFromScore(total: number): 'easy' | 'medium' | 'hard' {
 }
 
 export default function SubmissionList({ submissions }: SubmissionListProps) {
+  const [showAll, setShowAll] = useState(false);
+
   if (submissions.length === 0) {
     return <Card className="p-6 text-center text-sm text-slate-500">まだ提出がありません</Card>;
   }
@@ -32,6 +40,9 @@ export default function SubmissionList({ submissions }: SubmissionListProps) {
   const sorted = [...submissions].sort(
     (a, b) => new Date(b.submittedAt).getTime() - new Date(a.submittedAt).getTime()
   );
+
+  const displayedSubmissions = showAll ? sorted : sorted.slice(0, INITIAL_DISPLAY_COUNT);
+  const hasMore = sorted.length > INITIAL_DISPLAY_COUNT;
 
   return (
     <Card>
@@ -43,7 +54,7 @@ export default function SubmissionList({ submissions }: SubmissionListProps) {
       </div>
 
       <div className="divide-y divide-slate-100">
-        {sorted.map((sub) => {
+        {displayedSubmissions.map((sub) => {
           const date = new Date(sub.submittedAt);
           const dateStr = date.toLocaleDateString('ja-JP', {
             year: 'numeric',
@@ -66,14 +77,22 @@ export default function SubmissionList({ submissions }: SubmissionListProps) {
               </div>
               <div className="flex items-center gap-3">
                 <div className="text-lg font-bold text-blue-600">{sub.scores.total}pt</div>
-                <Button size="sm" variant="outline">
-                  詳細
+                <Button size="sm" variant="outline" asChild>
+                  <Link href={`/result?submissionId=${sub.submissionId}`}>詳細</Link>
                 </Button>
               </div>
             </div>
           );
         })}
       </div>
+
+      {hasMore && (
+        <div className="border-t border-slate-100 p-3 text-center">
+          <Button variant="ghost" size="sm" onClick={() => setShowAll(!showAll)}>
+            {showAll ? '折りたたむ' : `すべて表示（${sorted.length}件）`}
+          </Button>
+        </div>
+      )}
     </Card>
   );
 }

@@ -133,7 +133,8 @@ export const mockSubmissionHistory: Submission[] = [
       'The depreciation of the Japanese yen has multifaceted implications for export companies...',
     wordCount: 175,
     scores: { grammar: 22, logic: 24, context: 20, fluency: 21, total: 87 },
-    feedback: 'Good logical structure with clear three-perspective approach.',
+    feedback:
+      'Good logical structure with clear three-perspective approach. Consider using more specific business terminology in your analysis of supply chain impacts. The transition between your second and third points could be smoother.',
     submittedAt: '2026-02-10T09:30:00Z',
     scoredAt: '2026-02-10T09:30:45Z',
     processingTime: 2300,
@@ -145,7 +146,8 @@ export const mockSubmissionHistory: Submission[] = [
     answer: 'Remote work has fundamentally changed how businesses operate...',
     wordCount: 160,
     scores: { grammar: 23, logic: 22, context: 21, fluency: 22, total: 88 },
-    feedback: 'Well-organized arguments with good use of business vocabulary.',
+    feedback:
+      'Well-organized arguments with good use of business vocabulary. Try to incorporate more data-driven examples to strengthen your points.',
     submittedAt: '2026-02-09T10:15:00Z',
     scoredAt: '2026-02-09T10:15:38Z',
     processingTime: 1900,

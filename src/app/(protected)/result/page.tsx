@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { Suspense, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Header from '@/components/shared/Header';
 import ScoreSummary from '@/components/result/ScoreSummary';
@@ -9,10 +9,10 @@ import FeedbackCard from '@/components/result/FeedbackCard';
 
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Home } from 'lucide-react';
-import { mockRecentSubmissions } from '@/lib/mock-data';
+import { mockSubmissionHistory } from '@/lib/mock-data';
 import type { Submission } from '@/types';
 
-export default function ResultPage() {
+function ResultContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const submissionId = searchParams.get('submissionId');
@@ -21,9 +21,7 @@ export default function ResultPage() {
   // デモ用にモックデータから該当のsubmissionを検索
   const result = useMemo<Submission | null>(() => {
     if (!submissionId) return null;
-    return (
-      mockRecentSubmissions.find((s) => s.submissionId === submissionId) ?? mockRecentSubmissions[0]
-    );
+    return mockSubmissionHistory.find((s) => s.submissionId === submissionId) ?? null;
   }, [submissionId]);
 
   if (!result) {
@@ -33,7 +31,7 @@ export default function ResultPage() {
         <main className="mx-auto max-w-3xl space-y-4 px-4 py-6">
           <h1 className="text-3xl font-bold text-slate-900">採点結果</h1>
           <p className="text-red-600">
-            submissionId が指定されていません。ダッシュボードからクエストに挑戦してください。
+            提出が見つかりません。ダッシュボードからクエストに挑戦してください。
           </p>
           <Button variant="outline" onClick={() => router.push('/dashboard')}>
             ホームへ戻る
@@ -48,7 +46,7 @@ export default function ResultPage() {
       <Header />
 
       <main className="mx-auto max-w-3xl px-4 py-6">
-        <h1 className="mb-6 text-3xl font-bold text-slate-900">🎉 採点完了！</h1>
+        <h1 className="mb-6 text-3xl font-bold text-slate-900">採点完了！</h1>
 
         <div className="space-y-6">
           {/* 総合スコア */}
@@ -83,5 +81,19 @@ export default function ResultPage() {
         </div>
       </main>
     </div>
+  );
+}
+
+export default function ResultPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center bg-slate-50">
+          <p className="text-slate-500">読み込み中...</p>
+        </div>
+      }
+    >
+      <ResultContent />
+    </Suspense>
   );
 }
