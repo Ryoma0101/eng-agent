@@ -351,8 +351,3 @@ export async function saveSubmission(data: SubmissionData) {
 
 ---
 
-## 📞 サポート・連絡先
-
-- **Slack**: チーム3 #enquests
-- **Issues**: GitHub Issues で報告
-- **Pull Requests**: 機能提案は PR で
