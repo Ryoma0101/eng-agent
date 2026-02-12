@@ -10,7 +10,10 @@ export default function Home() {
     <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100">
       {/* Header */}
       <header className="fixed top-0 z-50 flex w-full items-center justify-between bg-white/80 px-6 py-3 backdrop-blur-sm">
-        <span className="text-lg font-bold text-slate-900">✍️ EnQuest</span>
+        <Link href="/" className="flex items-center gap-2">
+          <img src="/logo.svg" alt="EnQuest" className="h-8 w-8" />
+          <span className="text-lg font-bold text-slate-900">EnQuest</span>
+        </Link>
         <Link href="/login">
           <Button variant="outline" size="sm">
             ログイン

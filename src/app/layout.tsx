@@ -16,6 +16,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: 'EnQuest',
   description: '英作文を"競技"として楽しむ。AIフィードバックで、実務的な英作文スキルを磨く。',
+  icons: {
+    icon: '/logo.svg',
+  },
 };
 
 export default function RootLayout({
