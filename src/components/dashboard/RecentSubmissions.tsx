@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { Card } from '@/components/ui/card';
 import type { Submission } from '@/types';
 
@@ -24,7 +25,11 @@ export default function RecentSubmissions({ submissions }: RecentSubmissionsProp
           });
 
           return (
-            <div key={sub.submissionId} className="flex items-center justify-between px-4 py-3">
+            <Link
+              key={sub.submissionId}
+              href={`/result?submissionId=${sub.submissionId}`}
+              className="flex items-center justify-between px-4 py-3 transition-colors hover:bg-slate-50"
+            >
               <div>
                 <div className="text-sm font-medium text-slate-700">
                   {sub.questId.split('_')[0]}
@@ -34,11 +39,11 @@ export default function RecentSubmissions({ submissions }: RecentSubmissionsProp
               <div className="text-right">
                 <div className="text-lg font-bold text-blue-600">{sub.scores.total}pt</div>
                 <div className="text-xs text-slate-400">
-                  G:{sub.scores.grammar} L:{sub.scores.logic} C:
-                  {sub.scores.context} F:{sub.scores.fluency}
+                  G:{sub.scores.grammar} L:{sub.scores.logic} C:{sub.scores.context} F:
+                  {sub.scores.fluency}
                 </div>
               </div>
-            </div>
+            </Link>
           );
         })}
       </div>
