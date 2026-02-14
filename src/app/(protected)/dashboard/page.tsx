@@ -4,6 +4,7 @@ import Header from '@/components/shared/Header';
 import QuestCard from '@/components/dashboard/QuestCard';
 import StatsCards from '@/components/dashboard/StatsCards';
 import RecentSubmissions from '@/components/dashboard/RecentSubmissions';
+import { useAuth } from '@/lib/firebase/auth-context';
 import {
   mockCurrentUser,
   mockTodayQuest,
@@ -12,15 +13,16 @@ import {
 } from '@/lib/mock-data';
 
 export default function DashboardPage() {
+  const { user } = useAuth();
+  const displayName = user?.displayName || mockCurrentUser.displayName;
+
   return (
     <div className="min-h-screen bg-slate-50">
       <Header />
 
       <main className="mx-auto max-w-4xl px-4 py-6">
         {/* Welcome */}
-        <h1 className="mb-6 text-3xl font-bold text-slate-900">
-          こんにちは、{mockCurrentUser.displayName}さん
-        </h1>
+        <h1 className="mb-6 text-3xl font-bold text-slate-900">こんにちは、{displayName}さん</h1>
 
         {/* Today's Quest */}
         <div className="mb-6">
