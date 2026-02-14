@@ -1,24 +1,33 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Chrome, Loader2, User } from 'lucide-react';
+import { signInWithGoogle } from '@/lib/firebase/auth';
 
 export default function LoginForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   async function handleGoogleLogin() {
     try {
       setLoading(true);
       setError(null);
-      // TODO: Firebase Auth連携
-      // await signInWithGoogle();
-      window.location.href = '/dashboard';
-    } catch {
+      await signInWithGoogle();
+      // ログイン成功後、ダッシュボードへリダイレクト
+      router.push('/dashboard');
+    } catch (error: unknown) {
+      // ユーザーがログインダイアログをキャンセルした場合
+      if (error instanceof Error && error.message === 'auth/popup-closed-by-user') {
+        // エラーメッセージを表示しない
+        return;
+      }
       setError('ログインに失敗しました。もう一度お試しください。');
+      console.error('Google login error:', error);
     } finally {
       setLoading(false);
     }
@@ -29,7 +38,7 @@ export default function LoginForm() {
       setLoading(true);
       setError(null);
       // デモモード用のページに遷移
-      window.location.href = '/demo/dashboard';
+      router.push('/demo/dashboard');
     } catch {
       setError('デモモードの起動に失敗しました。もう一度お試しください。');
     } finally {
