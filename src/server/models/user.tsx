@@ -1,5 +1,6 @@
 export type User = {
-  name: string;
+  displayName: string;
+  email: string;
   createdAt: Date;
   updatedAt: Date;
 };
