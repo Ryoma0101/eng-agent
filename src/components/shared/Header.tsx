@@ -101,7 +101,10 @@ export default function Header({ demoMode = false }: HeaderProps) {
                 <p className="text-xs text-slate-500">{email}</p>
               </div>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => router.push('/profile')} className="cursor-pointer">
+              <DropdownMenuItem
+                onClick={() => router.push(demoMode ? '/demo/profile' : '/profile')}
+                className="cursor-pointer"
+              >
                 <User className="mr-2 h-4 w-4" />
                 プロフィール
               </DropdownMenuItem>

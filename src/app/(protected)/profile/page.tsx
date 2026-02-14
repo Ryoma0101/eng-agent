@@ -15,7 +15,7 @@ import type { UserProfile } from '@/types';
 
 export default function ProfilePage() {
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, signOut: authSignOut } = useAuth();
 
   // Googleアカウント情報とモックデータを合わせてUserProfileを作成
   const userProfile: UserProfile = user
@@ -33,8 +33,8 @@ export default function ProfilePage() {
       }
     : mockUserProfile;
 
-  function handleLogout() {
-    // TODO: Firebase Auth連携
+  async function handleLogout() {
+    await authSignOut();
     router.push('/login');
   }
 
