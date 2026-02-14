@@ -1,4 +1,5 @@
 import { QuestRepository } from '../repositories/quest';
+import { Quest } from '@/types';
 
 export const QuestService = {
   async FindQuestByDate(userId: string, date: string) {
@@ -30,5 +31,14 @@ export const QuestService = {
       difficulty,
       category
     );
+  },
+
+  async GetDailyQuest(today: Date) {
+    const date = today.toISOString().split('T')[0]; // YYYY-MM-DD形式の文字列を生成
+    const quest = await QuestRepository.GetQuestByDate(date);
+    if (!quest) {
+      throw new Error('No quest found for today');
+    }
+    return quest;
   },
 };
