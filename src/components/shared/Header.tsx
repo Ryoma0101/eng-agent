@@ -21,8 +21,8 @@ interface HeaderProps {
 const navItems = (demoMode: boolean) => [
   { href: demoMode ? '/demo/dashboard' : '/dashboard', label: 'Dashboard', icon: PenLine },
   { href: demoMode ? '/demo/ranking' : '/ranking', label: 'Ranking', icon: BarChart3 },
-  { href: '/history', label: 'History', icon: History },
-  { href: '/profile', label: 'Profile', icon: User },
+  { href: demoMode ? '/demo/history' : '/history', label: 'History', icon: History },
+  { href: demoMode ? '/demo/profile' : '/profile', label: 'Profile', icon: User },
 ];
 
 export default function Header({ demoMode = false }: HeaderProps) {
