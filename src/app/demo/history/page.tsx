@@ -56,7 +56,7 @@ export default function DemoHistoryPage() {
 
         {/* Submission History List */}
         <div className="mb-6">
-          <SubmissionList submissions={mockSubmissionHistory} />
+          <SubmissionList submissions={mockSubmissionHistory} demoMode={true} />
         </div>
 
         {/* Back to Dashboard */}
