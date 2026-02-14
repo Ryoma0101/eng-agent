@@ -11,6 +11,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { PenLine, BarChart3, History, User, LogOut } from 'lucide-react';
+import { useAuth } from '@/lib/firebase/auth-context';
 import { mockCurrentUser } from '@/lib/mock-data';
 
 interface HeaderProps {
@@ -27,16 +28,20 @@ const navItems = (demoMode: boolean) => [
 export default function Header({ demoMode = false }: HeaderProps) {
   const pathname = usePathname();
   const router = useRouter();
+  const { user, signOut } = useAuth();
   const items = navItems(demoMode);
 
-  const initials = mockCurrentUser.displayName
+  const displayName = user?.displayName || mockCurrentUser.displayName;
+  const email = user?.email || mockCurrentUser.email;
+
+  const initials = displayName
     .split(' ')
     .map((n) => n[0])
     .join('')
     .toUpperCase();
 
-  function handleLogout() {
-    // TODO: Firebase Auth連携
+  async function handleLogout() {
+    await signOut();
     router.push('/login');
   }
 
@@ -81,8 +86,8 @@ export default function Header({ demoMode = false }: HeaderProps) {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48">
               <div className="px-2 py-1.5">
-                <p className="text-sm font-medium text-slate-900">{mockCurrentUser.displayName}</p>
-                <p className="text-xs text-slate-500">{mockCurrentUser.email}</p>
+                <p className="text-sm font-medium text-slate-900">{displayName}</p>
+                <p className="text-xs text-slate-500">{email}</p>
               </div>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => router.push('/profile')} className="cursor-pointer">
