@@ -4,10 +4,15 @@ import {
   GoogleAuthProvider,
   signOut as firebaseSignOut,
   User,
+  type Auth,
 } from 'firebase/auth';
-import app from './config';
+import getFirebaseApp from './config';
 
-const auth = getAuth(app);
+// Auth を遅延初期化（ビルド時のプリレンダリングでの実行を防ぐ）
+function getFirebaseAuth(): Auth {
+  return getAuth(getFirebaseApp());
+}
+
 const googleProvider = new GoogleAuthProvider();
 
 /**
@@ -15,7 +20,7 @@ const googleProvider = new GoogleAuthProvider();
  */
 export async function signInWithGoogle(): Promise<User> {
   try {
-    const result = await signInWithPopup(auth, googleProvider);
+    const result = await signInWithPopup(getFirebaseAuth(), googleProvider);
     return result.user;
   } catch (error: unknown) {
     // ユーザーがポップアップをキャンセルした場合
@@ -30,21 +35,21 @@ export async function signInWithGoogle(): Promise<User> {
  * 現在のユーザーを取得
  */
 export function getCurrentUser(): User | null {
-  return auth.currentUser;
+  return getFirebaseAuth().currentUser;
 }
 
 /**
  * サインアウト
  */
 export async function signOut(): Promise<void> {
-  return firebaseSignOut(auth);
+  return firebaseSignOut(getFirebaseAuth());
 }
 
 /**
  * 認証状態の変化を監視
  */
 export function onAuthStateChanged(callback: (user: User | null) => void) {
-  return auth.onAuthStateChanged(callback);
+  return getFirebaseAuth().onAuthStateChanged(callback);
 }
 
-export default auth;
+export { getFirebaseAuth as auth };
