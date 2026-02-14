@@ -37,9 +37,7 @@ export const QuestRepository = {
     };
   },
 
-  async FindQuestByQuestId(
-    questId: string
-  ): Promise<{
+  async FindQuestByQuestId(questId: string): Promise<{
     id: string;
     userId: string;
     date: string;
@@ -66,5 +64,30 @@ export const QuestRepository = {
       difficulty: 'easy' | 'medium' | 'hard';
       category: string;
     };
+  },
+
+  async CreateQuest(
+    userId: string,
+    date: string,
+    title: string,
+    prompt: string,
+    wordCountMin: number,
+    wordCountMax: number,
+    difficulty: 'easy' | 'medium' | 'hard',
+    category: string
+  ): Promise<void> {
+    const questRef = doc(collection(db, 'queests'));
+    await setDoc(questRef, {
+      userId,
+      date,
+      title,
+      prompt,
+      wordCountMin,
+      wordCountMax,
+      difficulty,
+      category,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
   },
 };

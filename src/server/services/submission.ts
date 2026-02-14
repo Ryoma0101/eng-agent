@@ -8,4 +8,8 @@ export const SubmissionService = {
   async GetSubmissionListByUser(userId: string) {
     return await SubmissionRepository.GetSubmissionListByUser(userId);
   },
+
+  async createSubmission(userId: string, questId: string, answer: string): Promise<void> {
+    return await SubmissionRepository.createSubmission(userId, questId, answer);
+  },
 };

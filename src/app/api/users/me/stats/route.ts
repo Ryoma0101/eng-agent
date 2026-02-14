@@ -82,7 +82,6 @@ export async function GET(request: Request) {
         today_score: myTodaySubmission.score.total ?? 0,
         rank: rank,
         streak: streak,
-        questTitle: todayQuest.title,
       },
       { status: 200 }
     );

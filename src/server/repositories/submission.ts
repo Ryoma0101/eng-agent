@@ -30,4 +30,26 @@ export const SubmissionRepository = {
       ...docSnap.data(),
     })) as unknown as Submission[];
   },
+
+  async createSubmission(userId: string, questId: string, answer: string): Promise<void> {
+    const submissionsRef = collection(db, 'submissions');
+    const newSubmission = {
+      questId: questId,
+      userId: userId,
+      answer: answer,
+      wordCount: answer.split(' ').length,
+      score: {
+        grammar: 0,
+        logic: 0,
+        context: 0,
+        fluency: 0,
+        total: 0,
+      },
+      feedback: '',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    const submissionDocRef = doc(submissionsRef);
+    await setDoc(submissionDocRef, newSubmission);
+  },
 };
