@@ -1,9 +1,17 @@
 export type Submission = {
+  questId: string;
   userId: string;
-  queestId: string;
   answer: string;
   wordCount: number;
+  score: {
+    grammar: number;
+    logic: number;
+    context: number;
+    fluency: number;
+    total: number;
+  };
   feedback: string;
-  submittedAt: Date;
-  processedAt: Date;
+  createdAt: Date;
+  updatedAt: Date;
+  processingTime: number;
 };

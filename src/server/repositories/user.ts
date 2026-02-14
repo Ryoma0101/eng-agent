@@ -3,7 +3,7 @@ import { db } from '../firebase';
 import { collection, doc, setDoc, getDoc, getDocs, query, where } from 'firebase/firestore';
 
 export const UserRepository = {
-  async createUser(userId: string, displayName: string, email: string) {
+  async createUser(userId: string, displayName: string, email: string): Promise<void> {
     // collection(db, "path") ではなく doc(db, "path", id)
     const userRef = doc(db, 'users', userId);
     await setDoc(userRef, {
@@ -14,7 +14,9 @@ export const UserRepository = {
     });
   },
 
-  async FindByEmail(email: string) {
+  async FindByEmail(
+    email: string
+  ): Promise<{ id: string; displayName: string; email: string } | null> {
     const usersRef = collection(db, 'users');
     // query関数にdbインスタンスと条件を渡す
     const q = query(usersRef, where('email', '==', email));
@@ -23,6 +25,25 @@ export const UserRepository = {
     if (querySnapshot.empty) return null;
 
     const docSnap = querySnapshot.docs[0];
-    return { id: docSnap.id, ...docSnap.data() };
+    return { id: docSnap.id, ...docSnap.data() } as {
+      id: string;
+      displayName: string;
+      email: string;
+    };
+  },
+
+  async FindUserById(
+    uid: string
+  ): Promise<{ id: string; displayName: string; email: string } | null> {
+    const userRef = doc(db, 'users', uid);
+    const docSnap = await getDoc(userRef);
+
+    if (!docSnap.exists()) return null;
+
+    return { id: docSnap.id, ...docSnap.data() } as {
+      id: string;
+      displayName: string;
+      email: string;
+    };
   },
 };

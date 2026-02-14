@@ -9,4 +9,8 @@ export const UserService = {
     await UserRepository.createUser(userId, displayName, email);
     return { id: userId, displayName, email };
   },
+
+  async FindUserById(uid: string) {
+    return await UserRepository.FindUserById(uid);
+  },
 };
