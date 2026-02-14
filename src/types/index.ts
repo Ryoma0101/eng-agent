@@ -14,7 +14,6 @@ export interface Quest {
   wordCountMax: number;
   difficulty: Difficulty;
   category: string;
-  isActive: boolean;
 }
 
 // --- Scores ---

@@ -29,11 +29,21 @@ export async function POST(request: Request) {
         }
         */
 
+    const questData = {
+      questId: quest.id,
+      date: quest.date,
+      title: quest.title,
+      prompt: quest.prompt,
+      wordCountMin: quest.wordCountMin,
+      wordCountMax: quest.wordCountMax,
+      difficulty: quest.difficulty,
+      category: quest.category,
+    };
     const new_submission = await SubmissionService.createNewSubmission(
       userId,
       questId,
       answer,
-      quest
+      questData
     );
     if (new_submission === null) {
       return NextResponse.json({ error: 'Failed to create submission' }, { status: 500 });

@@ -73,7 +73,12 @@ export const SubmissionService = {
     return await SubmissionRepository.createSubmission(userId, questId, answer);
   },
 
-  async createNewSubmission(userId: string, questId: string, answer: string, todayQuest: Quest) {
+  async createNewSubmission(
+    userId: string,
+    questId: string,
+    answer: string,
+    todayQuest: Quest
+  ): Promise<void> {
     const apiKey = process.env.GEMINI_API_KEY;
     const controller = new AbortController();
     const input = {
