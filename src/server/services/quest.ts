@@ -19,8 +19,8 @@ export const QuestService = {
     difficulty: 'easy' | 'medium' | 'hard',
     category: string
   ) {
-    const now = new Date();
-    const date = now.toISOString().split('T')[0]; // YYYY-MM-DD形式の文字列を生成
+    const nowJst = new Date().toLocaleDateString('ja-JP', { timeZone: 'Asia/Tokyo' });
+    const date = new Date(nowJst).toISOString().split('T')[0]; // YYYY-MM-DD形式の文字列を生成
     return await QuestRepository.CreateQuest(
       userId,
       date,
