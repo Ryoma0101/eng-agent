@@ -1,8 +1,6 @@
-import { exp } from 'firebase/firestore/pipelines';
 import { NextResponse } from 'next/server';
 import { SubmissionService } from '@/server/services/submission';
 import { QuestService } from '@/server/services/quest';
-import WordCounter from '@/components/quest/WordCounter';
 
 export async function GET(request: Request) {
   try {
