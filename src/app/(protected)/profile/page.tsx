@@ -9,10 +9,29 @@ import BadgeList from '@/components/profile/BadgeList';
 import ScoreTrend from '@/components/profile/ScoreTrend';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, LogOut } from 'lucide-react';
+import { useAuth } from '@/lib/firebase/auth-context';
 import { mockUserProfile } from '@/lib/mock-data';
+import type { UserProfile } from '@/types';
 
 export default function ProfilePage() {
   const router = useRouter();
+  const { user } = useAuth();
+
+  // Googleアカウント情報とモックデータを合わせてUserProfileを作成
+  const userProfile: UserProfile = user
+    ? {
+        uid: user.uid,
+        displayName: user.displayName || 'User',
+        email: user.email,
+        photoURL: user.photoURL,
+        totalSubmissions: mockUserProfile.totalSubmissions,
+        averageScore: mockUserProfile.averageScore,
+        streak: mockUserProfile.streak,
+        badges: mockUserProfile.badges,
+        createdAt: mockUserProfile.createdAt,
+        scoreBreakdown: mockUserProfile.scoreBreakdown,
+      }
+    : mockUserProfile;
 
   function handleLogout() {
     // TODO: Firebase Auth連携
@@ -31,22 +50,22 @@ export default function ProfilePage() {
 
         {/* User Info */}
         <div className="mb-6">
-          <UserInfo profile={mockUserProfile} />
+          <UserInfo profile={userProfile} />
         </div>
 
         {/* Stats */}
         <div className="mb-6">
-          <UserStats profile={mockUserProfile} />
+          <UserStats profile={userProfile} />
         </div>
 
         {/* Badges */}
         <div className="mb-6">
-          <BadgeList badges={mockUserProfile.badges} />
+          <BadgeList badges={userProfile.badges} />
         </div>
 
         {/* Score Trend */}
         <div className="mb-6">
-          <ScoreTrend scoreBreakdown={mockUserProfile.scoreBreakdown} />
+          <ScoreTrend scoreBreakdown={userProfile.scoreBreakdown} />
         </div>
 
         {/* Actions */}
