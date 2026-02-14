@@ -10,6 +10,7 @@ import type { Submission } from '@/types';
 
 interface SubmissionListProps {
   submissions: Submission[];
+  demoMode?: boolean;
 }
 
 const INITIAL_DISPLAY_COUNT = 5;
@@ -29,8 +30,9 @@ function getDifficultyFromScore(total: number): 'easy' | 'medium' | 'hard' {
   return 'easy';
 }
 
-export default function SubmissionList({ submissions }: SubmissionListProps) {
+export default function SubmissionList({ submissions, demoMode = false }: SubmissionListProps) {
   const [showAll, setShowAll] = useState(false);
+  const resultHref = demoMode ? '/demo/result' : '/result';
 
   if (submissions.length === 0) {
     return <Card className="p-6 text-center text-sm text-slate-500">まだ提出がありません</Card>;
@@ -78,7 +80,7 @@ export default function SubmissionList({ submissions }: SubmissionListProps) {
               <div className="flex items-center gap-3">
                 <div className="text-lg font-bold text-blue-600">{sub.scores.total}pt</div>
                 <Button size="sm" variant="outline" asChild>
-                  <Link href={`/result?submissionId=${sub.submissionId}`}>詳細</Link>
+                  <Link href={`${resultHref}?submissionId=${sub.submissionId}`}>詳細</Link>
                 </Button>
               </div>
             </div>

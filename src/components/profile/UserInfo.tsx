@@ -1,5 +1,5 @@
 import { Card } from '@/components/ui/card';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { CalendarDays } from 'lucide-react';
 import type { UserProfile } from '@/types';
 
@@ -24,6 +24,7 @@ export default function UserInfo({ profile }: UserInfoProps) {
     <Card className="p-6">
       <div className="flex items-center gap-4">
         <Avatar className="h-16 w-16">
+          {profile.photoURL && <AvatarImage src={profile.photoURL} alt={profile.displayName} />}
           <AvatarFallback className="bg-blue-100 text-xl font-bold text-blue-600">
             {initials}
           </AvatarFallback>
