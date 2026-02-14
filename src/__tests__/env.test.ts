@@ -80,12 +80,12 @@ describe('Environment Variables', () => {
       };
 
       // All values should be defined
-      Object.entries(firebaseConfig).forEach(([key, value]) => {
+      Object.entries(firebaseConfig).forEach(([, value]) => {
         expect(value).toBeDefined();
       });
 
       // No empty strings
-      Object.entries(firebaseConfig).forEach(([key, value]) => {
+      Object.entries(firebaseConfig).forEach(([, value]) => {
         if (value !== undefined) {
           expect(String(value).length).toBeGreaterThan(0);
         }
