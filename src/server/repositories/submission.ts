@@ -76,4 +76,38 @@ export const SubmissionRepository = {
     };
     await setDoc(submissionDocRef, newSubmission);
   },
+
+  async GetSubmissionByUserIdAndQuestId(
+    userId: string,
+    questId: string
+  ): Promise<{
+    id: string;
+    questId: string;
+    userId: string;
+    answer: string;
+    wordCount: number;
+    score: { grammar: number; logic: number; context: number; fluency: number; total: number };
+    feedback: string;
+    createdAt: Date;
+    updatedAt: Date;
+  } | null> {
+    const submissionsRef = collection(db, 'submissions');
+    const q = query(submissionsRef, where('userId', '==', userId), where('questId', '==', questId));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) return null;
+
+    const docSnap = querySnapshot.docs[0];
+    return { id: docSnap.id, ...docSnap.data() } as unknown as {
+      id: string;
+      questId: string;
+      userId: string;
+      answer: string;
+      wordCount: number;
+      score: { grammar: number; logic: number; context: number; fluency: number; total: number };
+      feedback: string;
+      createdAt: Date;
+      updatedAt: Date;
+    };
+  },
 };

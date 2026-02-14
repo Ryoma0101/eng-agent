@@ -13,5 +13,4 @@ export type Submission = {
   feedback: string;
   createdAt: Date;
   updatedAt: Date;
-  processingTime: number;
 };

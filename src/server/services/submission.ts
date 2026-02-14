@@ -152,4 +152,8 @@ export const SubmissionService = {
     );
     return newsubmission;
   },
+
+  async GetSubmissionByUserIdAndQuestId(userId: string, questId: string) {
+    return await SubmissionRepository.GetSubmissionByUserIdAndQuestId(userId, questId);
+  },
 };
