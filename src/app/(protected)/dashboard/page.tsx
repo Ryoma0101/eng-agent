@@ -1,20 +1,35 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Header from '@/components/shared/Header';
 import QuestCard from '@/components/dashboard/QuestCard';
 import StatsCards from '@/components/dashboard/StatsCards';
 import RecentSubmissions from '@/components/dashboard/RecentSubmissions';
 import { useAuth } from '@/lib/firebase/auth-context';
-import {
-  mockCurrentUser,
-  mockTodayQuest,
-  mockUserStats,
-  mockRecentSubmissions,
-} from '@/lib/mock-data';
+import { apiClient } from '@/lib/api-client';
+import { mockRecentSubmissions } from '@/lib/mock-data';
+import type { Quest, UserStats } from '@/types';
 
 export default function DashboardPage() {
   const { user } = useAuth();
-  const displayName = user?.displayName || mockCurrentUser.displayName;
+  const displayName = user?.displayName || 'User';
+
+  const [quest, setQuest] = useState<Quest | null>(null);
+  const [stats, setStats] = useState<UserStats | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!user) return;
+
+    Promise.allSettled([
+      apiClient<Quest>('/api/quests/today'),
+      apiClient<UserStats>('/api/users/me/stats'),
+    ]).then(([questResult, statsResult]) => {
+      if (questResult.status === 'fulfilled') setQuest(questResult.value);
+      if (statsResult.status === 'fulfilled') setStats(statsResult.value);
+      setLoading(false);
+    });
+  }, [user]);
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -26,15 +41,21 @@ export default function DashboardPage() {
 
         {/* Today's Quest */}
         <div className="mb-6">
-          <QuestCard quest={mockTodayQuest} />
+          {loading ? (
+            <p className="text-slate-500">読み込み中...</p>
+          ) : quest ? (
+            <QuestCard quest={quest} />
+          ) : (
+            <p className="text-slate-500">今日のクエストはまだ配信されていません</p>
+          )}
         </div>
 
         {/* Stats */}
         <div className="mb-6">
-          <StatsCards stats={mockUserStats} />
+          <StatsCards stats={stats ?? { todayScore: 0, rank: 0, streak: 0 }} />
         </div>
 
-        {/* Recent Submissions */}
+        {/* Recent Submissions - TODO: API接続 */}
         <div className="mb-6">
           <RecentSubmissions submissions={mockRecentSubmissions} />
         </div>
