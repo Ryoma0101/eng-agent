@@ -61,21 +61,46 @@ export const SubmissionRepository = {
     wordCount: number,
     score: { grammar: number; logic: number; context: number; fluency: number; total: number },
     feedback: string
-  ): Promise<string> {
-    const submissionsRef = collection(db, 'submissions');
-    const submissionDocRef = doc(submissionsRef);
-    const newSubmission = {
-      questId,
-      userId,
-      answer,
-      wordCount,
-      score,
-      feedback,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-    await setDoc(submissionDocRef, newSubmission);
-    return submissionDocRef.id;
+  ): Promise<{
+    submissionId: string;
+    questId: string;
+    userId: string;
+    answer: string;
+    wordCount: number;
+    score: { grammar: number; logic: number; context: number; fluency: number; total: number };
+    feedback: string;
+    createdAt: Date;
+    updatedAt: Date;
+  }> {
+    try {
+      const submissionsRef = collection(db, 'submissions');
+      const submissionDocRef = doc(submissionsRef);
+      const newSubmission = {
+        questId,
+        userId,
+        answer,
+        wordCount,
+        score,
+        feedback,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      const newSubmission2 = await setDoc(submissionDocRef, newSubmission);
+      return {
+        submissionId: submissionDocRef.id,
+        questId,
+        userId,
+        answer,
+        wordCount,
+        score,
+        feedback,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+    } catch (error) {
+      console.error('Error creating submission:', error);
+      throw error;
+    }
   },
 
   async GetSubmissionByUserIdAndQuestId(

@@ -49,7 +49,7 @@ export const QuestRepository = {
     difficulty: 'easy' | 'medium' | 'hard';
     category: string;
   } | null> {
-    const questRef = doc(db, 'quests', questId);
+    const questRef = doc(db, 'queests', questId);
     const docSnap = await getDoc(questRef);
 
     if (!docSnap.exists()) return null;

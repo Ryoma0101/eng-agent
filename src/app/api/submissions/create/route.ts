@@ -22,8 +22,11 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Quest not found' }, { status: 404 });
     }
 
-    const today = new Date();
-    if (quest.date !== today.toDateString()) {
+    const now = new Date();
+    const jstOffset = 9 * 60; // 日本時間はUTC+9
+    const localTime = new Date(now.getTime() + jstOffset * 60 * 1000);
+    console.log('Local Time (JST):', localTime.toISOString().split('T')[0]);
+    if (quest.date !== localTime.toISOString().split('T')[0]) {
       return NextResponse.json({ error: 'Quest is not active today' }, { status: 400 });
     }
 
@@ -37,11 +40,33 @@ export async function POST(request: Request) {
       difficulty: quest.difficulty,
       category: quest.category,
     };
-    const result = await SubmissionService.createNewSubmission(userId, questId, answer, questData);
-    if (result === null) {
+    const newSubmission = await SubmissionService.createNewSubmission(
+      userId,
+      questId,
+      answer,
+      questData
+    );
+    if (newSubmission === null) {
       return NextResponse.json({ error: 'Failed to create submission' }, { status: 500 });
     }
-    return NextResponse.json(result, { status: 201 });
+    const response = {
+      submissionId: newSubmission.submissionId,
+      questId: newSubmission.questId,
+      userId: newSubmission.userId,
+      answer: newSubmission.answer,
+      wordCount: newSubmission.wordCount,
+      score: {
+        grammar: newSubmission.score?.grammar ?? 0,
+        logic: newSubmission.score?.logic ?? 0,
+        context: newSubmission.score?.context ?? 0,
+        fluency: newSubmission.score?.fluency ?? 0,
+        total: newSubmission.score?.total ?? 0,
+      },
+      feedback: newSubmission.feedback,
+      createdAt: newSubmission.createdAt,
+      updatedAt: newSubmission.updatedAt,
+    };
+    return NextResponse.json(response, { status: 201 });
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     return NextResponse.json({ error: errorMessage }, { status: 500 });
