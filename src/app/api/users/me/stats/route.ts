@@ -79,7 +79,7 @@ export async function GET(request: Request) {
     // 6. 最終レスポンス
     return NextResponse.json(
       {
-        today_score: myTodaySubmission.score.total ?? 0,
+        todayScore: myTodaySubmission.score.total ?? 0,
         rank: rank,
         streak: streak,
       },
