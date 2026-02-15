@@ -25,15 +25,15 @@ export default function FeatureCards() {
       {features.map((feature) => {
         const Icon = feature.icon;
         return (
-          <Card
-            key={feature.title}
-            className="group p-6 text-center transition-shadow hover:shadow-md"
-          >
-            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-blue-50 text-blue-600 transition-colors group-hover:bg-blue-100">
-              <Icon className="h-6 w-6" />
+          <Card key={feature.title} className="group relative overflow-hidden p-6">
+            <div className="absolute inset-0 bg-gradient-to-br from-white/60 via-white/0 to-slate-50/60 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+            <div className="relative">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-900 text-white">
+                <Icon className="h-6 w-6" />
+              </div>
+              <h3 className="text-lg font-semibold text-slate-900">{feature.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-slate-600">{feature.description}</p>
             </div>
-            <h3 className="text-lg font-bold text-slate-900">{feature.title}</h3>
-            <p className="mt-2 text-sm leading-relaxed text-slate-500">{feature.description}</p>
           </Card>
         );
       })}
