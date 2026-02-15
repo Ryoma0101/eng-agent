@@ -103,7 +103,7 @@ export default function RankingPage() {
                 <Users className="h-5 w-5 text-blue-600" />
               </div>
               <div>
-                <div className="text-2xl font-bold text-slate-900">{totalUsers}</div>
+                <div className="text-2xl font-bold text-slate-900">{totalUsers}人</div>
                 <div className="text-xs text-slate-500">参加者数</div>
               </div>
             </div>
@@ -115,7 +115,7 @@ export default function RankingPage() {
               </div>
               <div>
                 <div className="text-2xl font-bold text-slate-900">
-                  {currentUser ? `#${currentUser.rank}` : '—'}
+                  {currentUser ? `${currentUser.rank}位` : '—'}
                 </div>
                 <div className="text-xs text-slate-500">あなたの順位</div>
               </div>
