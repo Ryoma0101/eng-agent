@@ -54,4 +54,19 @@ export const UserRepository = {
       photoURL: string | null;
     };
   },
+
+  async updateUserProfile(
+    uid: string,
+    payload: { displayName?: string; email?: string; photoURL?: string | null }
+  ): Promise<void> {
+    const userRef = doc(db, 'users', uid);
+    await setDoc(
+      userRef,
+      {
+        ...payload,
+        updatedAt: new Date(),
+      },
+      { merge: true }
+    );
+  },
 };

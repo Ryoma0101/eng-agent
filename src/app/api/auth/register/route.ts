@@ -13,7 +13,20 @@ export async function POST(request: Request) {
     // 既存ユーザーならそのまま返す（ログインの度に呼ばれるため）
     const existing = await UserRepository.FindUserById(uid);
     if (existing) {
-      return NextResponse.json(existing, { status: 200 });
+      await UserRepository.updateUserProfile(uid, {
+        displayName,
+        email,
+        photoURL,
+      });
+      return NextResponse.json(
+        {
+          ...existing,
+          displayName,
+          email,
+          photoURL,
+        },
+        { status: 200 }
+      );
     }
 
     const user = await UserService.createUser(uid, displayName, email, photoURL);
