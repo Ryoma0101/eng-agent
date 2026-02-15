@@ -22,8 +22,8 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Quest not found' }, { status: 404 });
     }
 
-    const today = new Date();
-    if (quest.date !== today.toDateString()) {
+    const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+    if (quest.date !== today) {
       return NextResponse.json({ error: 'Quest is not active today' }, { status: 400 });
     }
 
