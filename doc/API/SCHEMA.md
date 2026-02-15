@@ -48,7 +48,7 @@
 
 ## 1. 認証 API
 
-### `POST /api/auth/signin`
+### `POST /api/auth/signup`
 
 Google ログイン後、Firebase ID トークンをサーバーに送信してセッションを確立する。
 
@@ -56,7 +56,9 @@ Google ログイン後、Firebase ID トークンをサーバーに送信して�
 
 ```json
 {
-  "idToken": "eyJhbGciOiJSUzI1NiIs..."
+  "uid": "eyJhbGciOiJSUzI1NiIs...",
+  "displayName": "hogehoge",
+  "email": "hoge@hoge.com"
 }
 ```
 
@@ -64,7 +66,7 @@ Google ログイン後、Firebase ID トークンをサーバーに送信して�
 
 ```json
 {
-  "uid": "user_abc123",
+  "id": "user_abc123",
   "email": "user@example.com",
   "displayName": "Taro Yamada"
 }
@@ -98,8 +100,7 @@ Google ログイン後、Firebase ID トークンをサーバーに送信して�
   "wordCountMin": 150,
   "wordCountMax": 200,
   "difficulty": "medium",
-  "category": "economics",
-  "isActive": true
+  "category": "economics"
 }
 ```
 
@@ -119,7 +120,7 @@ quests コレクションから date == 今日(JST) かつ isActive == true の�
 
 ## 3. 提出・採点 API
 
-### `POST /api/submissions`
+### `POST /api/submissions/create`
 
 英作文を提出し、AI 採点を実行して結果を返す。
 
@@ -132,6 +133,9 @@ quests コレクションから date == 今日(JST) かつ isActive == true の�
   "questId": "2026-02-10_quest001",
   "answer": "In response to the depreciation of the yen, our company will prioritize cost-efficiency while maintaining..."
 }
+
+header
+userId: eyJhbGciOiJSUzI1NiIs...
 ```
 
 **バリデーション（サーバー側）**
@@ -160,9 +164,8 @@ quests コレクションから date == 今日(JST) かつ isActive == true の�
     "total": 87
   },
   "feedback": "Good logical structure with clear three-perspective approach. Consider using more specific business terminology in your analysis of supply chain impacts.",
-  "submittedAt": "2026-02-10T09:30:00Z",
-  "scoredAt": "2026-02-10T09:30:45Z",
-  "processingTime": 2300
+  "createdAt": "2026-02-10T09:30:00Z",
+  "updateAt": "2026-02-10T09:30:45Z"
 }
 ```
 
@@ -207,11 +210,14 @@ quests コレクションから date == 今日(JST) かつ isActive == true の�
 
 ---
 
-### `GET /api/submissions/:submissionId`
+### `GET /api/submissions/get`
 
 採点結果を取得する。
 
 > Result 画面が `submissionId` をクエリパラメータで受け取り呼び出す。
+>
+**リクエスト**
+header: userId
 
 **レスポンス (200)**
 
@@ -252,6 +258,8 @@ quests コレクションから date == 今日(JST) かつ isActive == true の�
 認証中ユーザーのダッシュボード用統計を返す。
 
 > Dashboard の `StatsCards` が使用。
+**リクエスト**
+header: userId
 
 **レスポンス (200)**
 
@@ -298,15 +306,13 @@ quests コレクションから date == 今日(JST) かつ isActive == true の�
       "rank": 1,
       "userId": "user_alice",
       "displayName": "Alice Chen",
-      "score": 95,
-      "submissionCount": 2
+      "score": 95
     },
     {
       "rank": 2,
       "userId": "user_bob",
       "displayName": "Bob Smith",
-      "score": 92,
-      "submissionCount": 1
+      "score": 92
     }
   ],
   "totalUsers": 42
