@@ -1,7 +1,7 @@
 'use client';
 
-import { Suspense, useMemo } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Header from '@/components/shared/Header';
 import ScoreSummary from '@/components/result/ScoreSummary';
 import ScoreBreakdown from '@/components/result/ScoreBreakdown';
@@ -9,20 +9,46 @@ import FeedbackCard from '@/components/result/FeedbackCard';
 
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Home } from 'lucide-react';
-import { mockSubmissionHistory } from '@/lib/mock-data';
-import type { Submission } from '@/types';
+import { apiClient, ApiError } from '@/lib/api-client';
+import type { Scores } from '@/types';
+
+interface SubmissionResult {
+  submissionId: string;
+  questId: string;
+  userId: string;
+  answer: string;
+  wordCount: number;
+  scores: Scores;
+  feedback: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
 function ResultContent() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const submissionId = searchParams.get('submissionId');
+  const [result, setResult] = useState<SubmissionResult | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // TODO: API連携 GET /api/submissions/${submissionId}
-  // デモ用にモックデータから該当のsubmissionを検索
-  const result = useMemo<Submission | null>(() => {
-    if (!submissionId) return null;
-    return mockSubmissionHistory.find((s) => s.submissionId === submissionId) ?? null;
-  }, [submissionId]);
+  useEffect(() => {
+    apiClient<SubmissionResult>('/api/submissions/get')
+      .then(setResult)
+      .catch((err) => {
+        setError(err instanceof ApiError ? err.message : '結果の取得に失敗しました');
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-slate-50">
+        <Header />
+        <main className="mx-auto max-w-3xl px-4 py-6">
+          <p className="text-slate-500">読み込み中...</p>
+        </main>
+      </div>
+    );
+  }
 
   if (!result) {
     return (
@@ -31,7 +57,7 @@ function ResultContent() {
         <main className="mx-auto max-w-3xl space-y-4 px-4 py-6">
           <h1 className="text-3xl font-bold text-slate-900">採点結果</h1>
           <p className="text-red-600">
-            提出が見つかりません。ダッシュボードからクエストに挑戦してください。
+            {error || '提出が見つかりません。ダッシュボードからクエストに挑戦してください。'}
           </p>
           <Button variant="outline" onClick={() => router.push('/dashboard')}>
             ホームへ戻る
@@ -50,11 +76,7 @@ function ResultContent() {
 
         <div className="space-y-6">
           {/* 総合スコア */}
-          <ScoreSummary
-            total={result.scores.total}
-            scoredAt={result.scoredAt}
-            processingTime={result.processingTime}
-          />
+          <ScoreSummary total={result.scores.total} scoredAt={result.updatedAt} />
 
           {/* スコア内訳 */}
           <ScoreBreakdown scores={result.scores} />
