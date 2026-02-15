@@ -16,6 +16,7 @@ import type { Scores } from '@/types';
 interface SubmissionResult {
   submissionId: string;
   questId: string;
+  questDate: string;
   questTitle: string;
   prompt: string;
   userId: string;
@@ -78,6 +79,9 @@ function ResultContent() {
         <h1 className="mb-6 text-3xl font-bold text-slate-900">採点完了！</h1>
 
         <div className="space-y-6">
+          {/* 総合スコア */}
+          <ScoreSummary total={result.scores.total} scoredAt={result.questDate} />
+
           {/* Topic */}
           <Card className="p-6">
             <h2 className="mb-2 text-lg font-semibold text-slate-900">トピック</h2>
@@ -96,9 +100,6 @@ function ResultContent() {
             <p className="mb-2 text-sm text-slate-500">{result.wordCount} words</p>
             <p className="leading-relaxed whitespace-pre-wrap text-slate-700">{result.answer}</p>
           </Card>
-
-          {/* 総合スコア */}
-          <ScoreSummary total={result.scores.total} scoredAt={result.updatedAt} />
 
           {/* スコア内訳 */}
           <ScoreBreakdown scores={result.scores} />

@@ -28,6 +28,7 @@ export async function GET(request: Request) {
       {
         submissionId: submission.id,
         questId: submission.questId,
+        questDate: quest.date,
         questTitle: quest.title,
         prompt: quest.prompt,
         userId: submission.userId,
