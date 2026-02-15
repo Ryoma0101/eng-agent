@@ -17,7 +17,19 @@ export default function LoginForm() {
     try {
       setLoading(true);
       setError(null);
-      await signInWithGoogle();
+      const firebaseUser = await signInWithGoogle();
+
+      // Firestore にユーザーを登録（既に存在する場合は 409 が返るが無視）
+      await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          uid: firebaseUser.uid,
+          displayName: firebaseUser.displayName || 'User',
+          email: firebaseUser.email || '',
+        }),
+      }).catch(() => {});
+
       // ログイン成功後、ダッシュボードへリダイレクト
       router.push('/dashboard');
     } catch (error: unknown) {
