@@ -41,6 +41,7 @@ export default function AnswerForm({
         placeholder="英作文を入力してください..."
         value={answer}
         onChange={(e) => onAnswerChange(e.target.value)}
+        onPaste={(e) => e.preventDefault()}
         rows={12}
         disabled={submitting}
         className="resize-y"
