@@ -16,12 +16,32 @@ export async function GET(request: Request) {
     console.log('Submissions for user:', submissions);
 
     let totalScore = 0;
+    let totalContext = 0;
+    let totalFluency = 0;
+    let totalGrammar = 0;
+    let totalLogic = 0;
     for (const submission of submissions) {
       totalScore += submission.score?.total ?? 0;
+      totalContext += submission.score?.context ?? 0;
+      totalFluency += submission.score?.fluency ?? 0;
+      totalGrammar += submission.score?.grammar ?? 0;
+      totalLogic += submission.score?.logic ?? 0;
     }
-    const averageScore = totalScore / submissions.length;
-
-    return NextResponse.json({ averageScore: averageScore }, { status: 200 });
+    const averageTotal = totalScore / submissions.length;
+    const averageContext = totalContext / submissions.length;
+    const averageFluency = totalFluency / submissions.length;
+    const averageGrammar = totalGrammar / submissions.length;
+    const averageLogic = totalLogic / submissions.length;
+    return NextResponse.json(
+      {
+        averageTotal: averageTotal,
+        averageContext: averageContext,
+        averageFluency: averageFluency,
+        averageGrammar: averageGrammar,
+        averageLogic: averageLogic,
+      },
+      { status: 200 }
+    );
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     return NextResponse.json({ error: errorMessage }, { status: 500 });
