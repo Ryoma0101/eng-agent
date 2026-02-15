@@ -27,6 +27,7 @@ export default function LoginForm() {
           uid: firebaseUser.uid,
           displayName: firebaseUser.displayName || 'User',
           email: firebaseUser.email || '',
+          photoURL: firebaseUser.photoURL,
         }),
       }).catch(() => {});
 

@@ -28,6 +28,7 @@ export async function GET(request: Request) {
           rank: index + 1,
           userId: s.userId,
           displayName: user?.displayName || 'Unknown',
+          photoURL: user?.photoURL || null,
           score: s.score?.total ?? 0,
         };
       })

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Header from '@/components/shared/Header';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Trophy, TrendingUp, Users, Hash } from 'lucide-react';
 import { useAuth } from '@/lib/firebase/auth-context';
 import { apiClient } from '@/lib/api-client';
@@ -21,6 +22,7 @@ interface RankingEntry {
   rank: number;
   userId: string;
   displayName: string;
+  photoURL: string | null;
   score: number;
 }
 
@@ -161,9 +163,12 @@ export default function RankingPage() {
                   </div>
 
                   {/* Avatar */}
-                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-200 text-xs font-bold text-slate-600">
-                    {getInitials(entry.displayName)}
-                  </div>
+                  <Avatar className="h-9 w-9">
+                    <AvatarImage src={entry.photoURL || undefined} alt={entry.displayName} />
+                    <AvatarFallback className="bg-slate-200 text-xs font-bold text-slate-600">
+                      {getInitials(entry.displayName)}
+                    </AvatarFallback>
+                  </Avatar>
 
                   {/* User Info */}
                   <div className="flex-1">
