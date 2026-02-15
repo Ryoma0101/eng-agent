@@ -7,6 +7,7 @@ interface UserStatsProps {
 }
 
 export default function UserStats({ profile }: UserStatsProps) {
+  const hasSubmissions = profile.totalSubmissions > 0;
   const items = [
     {
       label: '提出完了',
@@ -17,7 +18,7 @@ export default function UserStats({ profile }: UserStatsProps) {
     },
     {
       label: '平均スコア',
-      value: `${profile.averageScore}pt`,
+      value: hasSubmissions ? `${profile.averageScore}pt` : '-',
       icon: TrendingUp,
       color: 'text-green-600',
       bgColor: 'bg-green-50',

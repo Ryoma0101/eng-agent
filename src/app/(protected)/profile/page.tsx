@@ -29,7 +29,13 @@ export default function ProfilePage() {
       apiClient<{
         submissions: Array<{ scores: UserProfile['scoreBreakdown'] & { total: number } }>;
       }>('/api/submissions/list'),
-      apiClient<{ averageScore: number }>('/api/average'),
+      apiClient<{
+        averageTotal: number;
+        averageContext: number;
+        averageFluency: number;
+        averageGrammar: number;
+        averageLogic: number;
+      }>('/api/average'),
       apiClient<{ streak: number }>('/api/users/me/stats'),
     ])
       .then(([submissionsResult, averageResult, statsResult]) => {
@@ -37,26 +43,20 @@ export default function ProfilePage() {
           submissionsResult.status === 'fulfilled' ? submissionsResult.value.submissions : [];
 
         const count = submissions.length;
-        const scoreBreakdown =
-          count === 0
-            ? { grammar: 0, logic: 0, context: 0, fluency: 0 }
-            : {
-                grammar: Math.round(
-                  submissions.reduce((sum, s) => sum + (s.scores.grammar ?? 0), 0) / count
-                ),
-                logic: Math.round(
-                  submissions.reduce((sum, s) => sum + (s.scores.logic ?? 0), 0) / count
-                ),
-                context: Math.round(
-                  submissions.reduce((sum, s) => sum + (s.scores.context ?? 0), 0) / count
-                ),
-                fluency: Math.round(
-                  submissions.reduce((sum, s) => sum + (s.scores.fluency ?? 0), 0) / count
-                ),
-              };
+        const averageRaw = averageResult.status === 'fulfilled' ? averageResult.value : null;
+        const averageTotal = averageRaw?.averageTotal ?? 0;
+        const averageGrammar = averageRaw?.averageGrammar ?? 0;
+        const averageLogic = averageRaw?.averageLogic ?? 0;
+        const averageContext = averageRaw?.averageContext ?? 0;
+        const averageFluency = averageRaw?.averageFluency ?? 0;
 
-        const averageScore =
-          averageResult.status === 'fulfilled' ? Math.round(averageResult.value.averageScore) : 0;
+        const averageScore = Number.isFinite(averageTotal) ? Math.round(averageTotal) : 0;
+        const scoreBreakdown = {
+          grammar: Number.isFinite(averageGrammar) ? Math.round(averageGrammar) : 0,
+          logic: Number.isFinite(averageLogic) ? Math.round(averageLogic) : 0,
+          context: Number.isFinite(averageContext) ? Math.round(averageContext) : 0,
+          fluency: Number.isFinite(averageFluency) ? Math.round(averageFluency) : 0,
+        };
         const streak = statsResult.status === 'fulfilled' ? statsResult.value.streak : 0;
 
         setProfileData({
