@@ -76,7 +76,7 @@ export default function Home() {
               <Button className="bg-white text-slate-900 hover:bg-slate-100">Start Training</Button>
             </Link>
             <Link href="/demo/dashboard">
-              <Button variant="outline" className="border-white/40 text-white hover:bg-white/10">
+              <Button variant="outline" className="bg-white text-slate-900 hover:bg-slate-100">
                 デモを見る
               </Button>
             </Link>
