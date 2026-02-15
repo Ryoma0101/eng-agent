@@ -7,7 +7,8 @@ export const QuestService = {
   },
 
   async FindQuestByQuestId(questId: string) {
-    return await QuestRepository.FindQuestByQuestId(questId);
+    const quest = await QuestRepository.FindQuestByQuestId(questId);
+    return quest;
   },
 
   async CreateQuest(
