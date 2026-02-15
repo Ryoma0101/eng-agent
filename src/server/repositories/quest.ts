@@ -18,7 +18,7 @@ export const QuestRepository = {
     difficulty: 'easy' | 'medium' | 'hard';
     category: string;
   } | null> {
-    const questsRef = collection(db, 'quests');
+    const questsRef = collection(db, 'queests');
     const q = query(questsRef, where('userId', '==', userId), where('date', '==', date));
     const querySnapshot = await getDocs(q);
 
@@ -49,7 +49,7 @@ export const QuestRepository = {
     difficulty: 'easy' | 'medium' | 'hard';
     category: string;
   } | null> {
-    const questRef = doc(db, 'quests', questId);
+    const questRef = doc(db, 'queests', questId);
     const docSnap = await getDoc(questRef);
 
     if (!docSnap.exists()) return null;
@@ -77,7 +77,7 @@ export const QuestRepository = {
     difficulty: 'easy' | 'medium' | 'hard',
     category: string
   ): Promise<void> {
-    const questRef = doc(collection(db, 'quests'));
+    const questRef = doc(collection(db, 'queests'));
     await setDoc(questRef, {
       userId,
       date,
@@ -103,7 +103,7 @@ export const QuestRepository = {
     difficulty: 'easy' | 'medium' | 'hard';
     category: string;
   } | null> {
-    const questsRef = collection(db, 'quests');
+    const questsRef = collection(db, 'queests');
     const q = query(questsRef, where('date', '==', date));
     const querySnapshot = await getDocs(q);
 

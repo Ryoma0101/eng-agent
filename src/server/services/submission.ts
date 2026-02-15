@@ -42,12 +42,17 @@ Return a JSON object with this exact format (use these exact key names):
   "context": <0-25>,
   "fluency": <0-25>,
   "feedback": "<Provide 2-3 sentences and up to 150~300 words of constructive feedback explaining the score and how to improve for practical usage in Japanese.>"
-`.trim();
+}
+`.trim(); // プロンプトの最後に閉じカッコを追加してJSON形式であることを強調
 }
 
-interface GeminiResponse {
-  text?: string;
-  candidates?: { output: string }[];
+// DeepSeek (OpenAI互換) のレスポンス型定義
+interface DeepSeekResponse {
+  choices: {
+    message: {
+      content: string;
+    };
+  }[];
 }
 
 interface RawLlmScores {
@@ -67,7 +72,6 @@ export const SubmissionService = {
     return await SubmissionRepository.GetSubmissionListByUser(userId);
   },
 
-  // デバッグ用の関数。実際の実装では、スコアリングやフィードバックの生成も行うべき。
   async createSubmission(userId: string, questId: string, answer: string): Promise<void> {
     return await SubmissionRepository.createSubmission(userId, questId, answer);
   },
@@ -79,88 +83,118 @@ export const SubmissionService = {
     todayQuest: Quest
   ): Promise<{
     submissionId: string;
-    score: { grammar: number; logic: number; context: number; fluency: number; total: number };
-    feedback: string;
-  } | null> {
-    const apiKey = process.env.GEMINI_API_KEY;
-    const controller = new AbortController();
-    const input = {
-      pronpt: todayQuest.prompt,
-      answer: answer,
-      wordCountMin: todayQuest.wordCountMin,
-      wordCountMax: todayQuest.wordCountMax,
-      signal: controller.signal,
+    questId: string;
+    userId: string;
+    answer: string;
+    wordCount: number;
+    score: {
+      grammar: number;
+      logic: number;
+      context: number;
+      fluency: number;
+      total: number;
     };
+    feedback: string;
+    createdAt: Date;
+    updatedAt: Date;
+  } | null> {
+    const apiKey = process.env.DEEPSEEK_API_KEY; // 名前を修正
+    const controller = new AbortController();
 
     const fullPrompt = buildPrompt(
-      input.pronpt,
-      input.answer,
-      input.wordCountMin,
-      input.wordCountMax
+      todayQuest.prompt,
+      answer,
+      todayQuest.wordCountMin,
+      todayQuest.wordCountMax
     );
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        // 'Authorization' ヘッダーは削除してください
-      },
-      body: JSON.stringify({
-        // 2. bodyの内容をクイックスタートと同じ構造に修正
-        contents: [
-          {
-            parts: [{ text: fullPrompt }],
-          },
-        ],
-        generationConfig: {
-          temperature: 0.3,
-          responseMimeType: 'application/json', // JSONで返却させる設定
+    const url = `https://api.deepseek.com/chat/completions`; // タイポ修正
+
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${apiKey}`,
         },
-      }),
-      signal: controller.signal,
-    });
+        body: JSON.stringify({
+          model: 'deepseek-chat',
+          messages: [
+            {
+              role: 'user',
+              content: fullPrompt,
+            },
+          ],
+          response_format: {
+            type: 'json_object',
+          },
+          temperature: 0.3,
+          max_tokens: 2000,
+        }),
+        signal: controller.signal,
+      });
 
-    if (!response.ok) {
-      throw new Error(`API request failed with status ${response.status}`);
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`DeepSeek API Error: ${response.status} - ${errorText}`);
+      }
+
+      const data = (await response.json()) as DeepSeekResponse;
+      const content = data.choices?.[0]?.message?.content ?? '';
+
+      // JSON文字列をパース（念のため正規表現で抽出）
+      const jsonMatch = content.match(/\{[\s\S]*\}/);
+      if (!jsonMatch) throw new Error('Failed to parse JSON from model response');
+
+      const parsed = JSON.parse(jsonMatch[0]) as RawLlmScores;
+
+      const newSubmission = {
+        questId,
+        userId,
+        answer,
+        // 単語数カウントを改善（空白文字で分割）
+        wordCount: answer.trim() === '' ? 0 : answer.trim().split(/\s+/).length,
+        score: {
+          grammar: parsed.grammar,
+          logic: parsed.logic,
+          context: parsed.context,
+          fluency: parsed.fluency,
+          total: parsed.grammar + parsed.logic + parsed.context + parsed.fluency,
+        },
+        feedback: parsed.feedback,
+      };
+
+      const submissionId = await SubmissionRepository.createNewSubmission(
+        questId,
+        userId,
+        answer,
+        newSubmission.wordCount,
+        newSubmission.score,
+        newSubmission.feedback
+      );
+
+      return {
+        submissionId: submissionId.submissionId,
+        questId: submissionId.questId,
+        userId: submissionId.userId,
+        answer: submissionId.answer,
+        wordCount: newSubmission.wordCount,
+        score: newSubmission.score,
+        feedback: newSubmission.feedback,
+        createdAt: submissionId.createdAt,
+        updatedAt: submissionId.updatedAt,
+      };
+    } catch (error) {
+      console.error('Submission creation failed:', error);
+      throw error;
     }
-
-    const data = (await response.json()) as GeminiResponse;
-    const content = data.candidates?.[0]?.output ?? data.text ?? '';
-    const jsonMatch = String(content).match(/\{[\s\S]*\}/);
-    const parsed = JSON.parse(jsonMatch ? jsonMatch[0] : content) as RawLlmScores;
-    const newSubmission = {
-      questId,
-      userId,
-      answer,
-      wordCount: answer.split(' ').length,
-      score: {
-        grammar: parsed.grammar,
-        logic: parsed.logic,
-        context: parsed.context,
-        fluency: parsed.fluency,
-        total: parsed.grammar + parsed.logic + parsed.context + parsed.fluency,
-      },
-      feedback: parsed.feedback,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-    const submissionId = await SubmissionRepository.createNewSubmission(
-      questId,
-      userId,
-      answer,
-      newSubmission.wordCount,
-      newSubmission.score,
-      newSubmission.feedback
-    );
-    return {
-      submissionId,
-      score: newSubmission.score,
-      feedback: newSubmission.feedback,
-    };
   },
 
   async GetSubmissionByUserIdAndQuestId(userId: string, questId: string) {
     return await SubmissionRepository.GetSubmissionByUserIdAndQuestId(userId, questId);
+  },
+
+  async GetSubmissionsByUserId(userId: string) {
+    return await SubmissionRepository.GetSubmissionsByUserId(userId);
   },
 };

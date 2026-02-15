@@ -17,9 +17,8 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    // 3. 今日のクエスト取得 (Date型の扱いに注意)
-    const todayStr = new Date().toISOString().split('T')[0];
-    const todayQuest = await QuestService.FindQuestByDate(userId, todayStr);
+    // 3. 今日のクエスト取得（管理者作成の共通クエスト）
+    const todayQuest = await QuestService.GetDailyQuest(new Date());
     if (!todayQuest) {
       return NextResponse.json({ error: 'No quest found for today' }, { status: 404 });
     }
