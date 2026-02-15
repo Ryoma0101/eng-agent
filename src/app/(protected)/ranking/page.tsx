@@ -1,10 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Header from '@/components/shared/Header';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Trophy, TrendingUp, Users, Hash } from 'lucide-react';
+import { useAuth } from '@/lib/firebase/auth-context';
+import { apiClient } from '@/lib/api-client';
 
 const getInitials = (name: string) => {
   return name
@@ -15,102 +17,41 @@ const getInitials = (name: string) => {
     .slice(0, 2);
 };
 
-const DEMO_RANKING = {
-  date: '2026-02-10',
-  totalUsers: 42,
-  topUsers: [
-    {
-      rank: 1,
-      userId: 'user_alice',
-      displayName: 'Alice Chen',
-      score: 95,
-      submissionCount: 2,
-      lastSubmittedAt: '2026-02-10T11:50:00Z',
-    },
-    {
-      rank: 2,
-      userId: 'user_bob',
-      displayName: 'Bob Smith',
-      score: 92,
-      submissionCount: 1,
-      lastSubmittedAt: '2026-02-10T10:30:00Z',
-    },
-    {
-      rank: 3,
-      userId: 'user_charlie',
-      displayName: 'Charlie Park',
-      score: 89,
-      submissionCount: 1,
-      lastSubmittedAt: '2026-02-10T10:10:00Z',
-    },
-    {
-      rank: 4,
-      userId: 'current_user',
-      displayName: 'You',
-      score: 87,
-      submissionCount: 1,
-      lastSubmittedAt: '2026-02-10T09:55:00Z',
-    },
-    {
-      rank: 5,
-      userId: 'user_david',
-      displayName: 'David Kim',
-      score: 85,
-      submissionCount: 1,
-      lastSubmittedAt: '2026-02-10T09:30:00Z',
-    },
-    {
-      rank: 6,
-      userId: 'user_emma',
-      displayName: 'Emma Wilson',
-      score: 83,
-      submissionCount: 1,
-      lastSubmittedAt: '2026-02-10T09:10:00Z',
-    },
-    {
-      rank: 7,
-      userId: 'user_frank',
-      displayName: 'Frank Lee',
-      score: 81,
-      submissionCount: 1,
-      lastSubmittedAt: '2026-02-10T08:45:00Z',
-    },
-    {
-      rank: 8,
-      userId: 'user_grace',
-      displayName: 'Grace Taylor',
-      score: 79,
-      submissionCount: 1,
-      lastSubmittedAt: '2026-02-10T08:20:00Z',
-    },
-    {
-      rank: 9,
-      userId: 'user_henry',
-      displayName: 'Henry Martinez',
-      score: 77,
-      submissionCount: 1,
-      lastSubmittedAt: '2026-02-10T08:05:00Z',
-    },
-    {
-      rank: 10,
-      userId: 'user_ivy',
-      displayName: 'Ivy Anderson',
-      score: 75,
-      submissionCount: 1,
-      lastSubmittedAt: '2026-02-10T07:50:00Z',
-    },
-  ],
-};
+interface RankingEntry {
+  rank: number;
+  userId: string;
+  displayName: string;
+  score: number;
+}
 
-const CURRENT_USER_ID = 'current_user';
+interface LeaderboardResponse {
+  date: string;
+  ranking: RankingEntry[];
+  totalUsers: number;
+}
 
 export default function RankingPage() {
-  const [ranking] = useState(DEMO_RANKING.topUsers);
+  const { user } = useAuth();
+  const [ranking, setRanking] = useState<RankingEntry[]>([]);
+  const [totalUsers, setTotalUsers] = useState(0);
+  const [loading, setLoading] = useState(true);
+
   const currentDate = new Date().toLocaleDateString('ja-JP', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
   });
+
+  useEffect(() => {
+    if (!user) return;
+    apiClient<LeaderboardResponse>('/api/leaderboard/daily')
+      .then((data) => {
+        setRanking(data.ranking);
+        setTotalUsers(data.totalUsers);
+      })
+      .catch((err) => console.error('Failed to load ranking:', err))
+      .finally(() => setLoading(false));
+  }, [user]);
 
   const getMedalIcon = (rank: number) => {
     switch (rank) {
@@ -125,7 +66,18 @@ export default function RankingPage() {
     }
   };
 
-  const currentUser = ranking.find((r) => r.userId === CURRENT_USER_ID);
+  const currentUser = ranking.find((r) => r.userId === user?.uid);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-slate-50">
+        <Header />
+        <main className="mx-auto max-w-4xl px-4 py-6">
+          <p className="text-slate-500">読み込み中...</p>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -149,7 +101,7 @@ export default function RankingPage() {
                 <Users className="h-5 w-5 text-blue-600" />
               </div>
               <div>
-                <div className="text-2xl font-bold text-slate-900">{DEMO_RANKING.totalUsers}</div>
+                <div className="text-2xl font-bold text-slate-900">{totalUsers}</div>
                 <div className="text-xs text-slate-500">参加者数</div>
               </div>
             </div>
@@ -189,7 +141,7 @@ export default function RankingPage() {
           </div>
           <div className="divide-y divide-slate-100">
             {ranking.map((entry) => {
-              const isCurrentUser = entry.userId === CURRENT_USER_ID;
+              const isCurrentUser = entry.userId === user?.uid;
               const medal = getMedalIcon(entry.rank);
 
               return (
@@ -229,7 +181,6 @@ export default function RankingPage() {
                         </Badge>
                       )}
                     </div>
-                    <div className="text-xs text-slate-400">提出 {entry.submissionCount}回</div>
                   </div>
 
                   {/* Score */}
