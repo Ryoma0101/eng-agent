@@ -69,8 +69,24 @@ export async function apiClient<T = unknown>(
   const response = await fetch(path, fetchOptions);
 
   if (!response.ok) {
-    const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
-    throw new ApiError(response.status, errorData.error || `Request failed: ${response.status}`);
+    let errorMessage = `API request failed with status ${response.status}`;
+
+    try {
+      const errorData = await response.json();
+      if (errorData && typeof errorData === 'object' && 'error' in errorData) {
+        const maybeMessage = (errorData as { error?: unknown }).error;
+        if (typeof maybeMessage === 'string' && maybeMessage.trim() !== '') {
+          errorMessage = maybeMessage;
+        }
+      }
+    } catch {
+      const fallbackText = await response.text().catch(() => '');
+      if (fallbackText.trim() !== '') {
+        errorMessage = fallbackText;
+      }
+    }
+
+    throw new ApiError(response.status, errorMessage);
   }
 
   return response.json() as Promise<T>;
