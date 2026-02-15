@@ -193,4 +193,8 @@ export const SubmissionService = {
   async GetSubmissionByUserIdAndQuestId(userId: string, questId: string) {
     return await SubmissionRepository.GetSubmissionByUserIdAndQuestId(userId, questId);
   },
+
+  async GetSubmissionsByUserId(userId: string) {
+    return await SubmissionRepository.GetSubmissionsByUserId(userId);
+  },
 };
