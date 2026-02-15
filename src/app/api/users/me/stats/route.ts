@@ -18,10 +18,8 @@ export async function GET(request: Request) {
     }
 
     // 3. 今日のクエスト取得（管理者作成の共通クエスト）
-    let todayQuest;
-    try {
-      todayQuest = await QuestService.GetDailyQuest(new Date());
-    } catch {
+    const todayQuest = await QuestService.GetDailyQuest(new Date());
+    if (!todayQuest) {
       return NextResponse.json({ error: 'No quest found for today' }, { status: 404 });
     }
 
