@@ -39,16 +39,11 @@ export async function POST(request: Request) {
       difficulty: quest.difficulty,
       category: quest.category,
     };
-    const new_submission = await SubmissionService.createNewSubmission(
-      userId,
-      questId,
-      answer,
-      questData
-    );
-    if (new_submission === null) {
+    const result = await SubmissionService.createNewSubmission(userId, questId, answer, questData);
+    if (result === null) {
       return NextResponse.json({ error: 'Failed to create submission' }, { status: 500 });
     }
-    return NextResponse.json({ new_submission }, { status: 201 });
+    return NextResponse.json(result, { status: 201 });
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     return NextResponse.json({ error: errorMessage }, { status: 500 });

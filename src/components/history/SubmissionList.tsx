@@ -8,21 +8,16 @@ import { Badge } from '@/components/ui/badge';
 import { Clock } from 'lucide-react';
 import type { Submission } from '@/types';
 
+interface SubmissionWithTitle extends Submission {
+  questTitle?: string | null;
+}
+
 interface SubmissionListProps {
-  submissions: Submission[];
+  submissions: SubmissionWithTitle[];
   demoMode?: boolean;
 }
 
 const INITIAL_DISPLAY_COUNT = 5;
-
-// questId からタイトルを取得するヘルパー（モック用）
-const QUEST_TITLES: Record<string, string> = {
-  '2026-02-10_quest001': '円安と輸出企業',
-  '2026-02-09_quest001': 'リモートワークの影響',
-  '2026-02-08_quest001': 'AI顧客サービス',
-  '2026-02-07_quest001': 'テック業界のグローバル競争',
-  '2026-02-06_quest001': 'サステナブルビジネス',
-};
 
 function getDifficultyFromScore(total: number): 'easy' | 'medium' | 'hard' {
   if (total >= 90) return 'hard';
@@ -63,7 +58,7 @@ export default function SubmissionList({ submissions, demoMode = false }: Submis
             month: '2-digit',
             day: '2-digit',
           });
-          const title = QUEST_TITLES[sub.questId] || sub.questId;
+          const title = sub.questTitle || sub.questId;
           const difficulty = getDifficultyFromScore(sub.scores.total);
 
           return (

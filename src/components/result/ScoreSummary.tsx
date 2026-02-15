@@ -4,10 +4,9 @@ import { Trophy } from 'lucide-react';
 interface ScoreSummaryProps {
   total: number;
   scoredAt: string;
-  processingTime: number;
 }
 
-export default function ScoreSummary({ total, scoredAt, processingTime }: ScoreSummaryProps) {
+export default function ScoreSummary({ total, scoredAt }: ScoreSummaryProps) {
   return (
     <Card className="p-6">
       <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
@@ -30,9 +29,6 @@ export default function ScoreSummary({ total, scoredAt, processingTime }: ScoreS
       <div className="mt-4 flex flex-wrap gap-4 border-t border-slate-100 pt-4 text-xs text-slate-400">
         <span>
           採点日時: <span className="font-mono">{new Date(scoredAt).toLocaleString()}</span>
-        </span>
-        <span>
-          処理時間: <span className="font-mono">{processingTime} ms</span>
         </span>
       </div>
     </Card>

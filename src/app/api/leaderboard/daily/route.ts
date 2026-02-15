@@ -2,7 +2,6 @@ import { UserService } from '@/server/services/user';
 import { QuestService } from '@/server/services/quest';
 import { SubmissionService } from '@/server/services/submission';
 import { NextResponse } from 'next/server';
-import { User } from 'lucide-react';
 
 export async function GET(request: Request) {
   try {
@@ -26,9 +25,9 @@ export async function GET(request: Request) {
       rankingList.map(async (s, index) => {
         const user = await UserService.FindUserById(s.userId);
         return {
-          rank: index + 1, // indexを利用すればfindIndexより高速です
+          rank: index + 1,
           userId: s.userId,
-          display: user?.displayName || 'Unknown',
+          displayName: user?.displayName || 'Unknown',
           score: s.score?.total ?? 0,
         };
       })

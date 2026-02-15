@@ -1,4 +1,3 @@
-import { sign } from 'crypto';
 import { SubmissionRepository } from '../repositories/submission';
 import { Quest } from '@/types';
 
@@ -78,7 +77,11 @@ export const SubmissionService = {
     questId: string,
     answer: string,
     todayQuest: Quest
-  ): Promise<void> {
+  ): Promise<{
+    submissionId: string;
+    score: { grammar: number; logic: number; context: number; fluency: number; total: number };
+    feedback: string;
+  } | null> {
     const apiKey = process.env.GEMINI_API_KEY;
     const controller = new AbortController();
     const input = {
@@ -142,7 +145,7 @@ export const SubmissionService = {
       createdAt: new Date(),
       updatedAt: new Date(),
     };
-    const newsubmission = await SubmissionRepository.createNewSubmission(
+    const submissionId = await SubmissionRepository.createNewSubmission(
       questId,
       userId,
       answer,
@@ -150,7 +153,11 @@ export const SubmissionService = {
       newSubmission.score,
       newSubmission.feedback
     );
-    return newsubmission;
+    return {
+      submissionId,
+      score: newSubmission.score,
+      feedback: newSubmission.feedback,
+    };
   },
 
   async GetSubmissionByUserIdAndQuestId(userId: string, questId: string) {

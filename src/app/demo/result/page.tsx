@@ -71,11 +71,7 @@ function DemoResultContent() {
 
         <div className="space-y-6">
           {/* 総合スコア */}
-          <ScoreSummary
-            total={result.scores.total}
-            scoredAt={result.scoredAt}
-            processingTime={result.processingTime}
-          />
+          <ScoreSummary total={result.scores.total} scoredAt={result.scoredAt} />
 
           {/* スコア内訳 */}
           <ScoreBreakdown scores={result.scores} />
