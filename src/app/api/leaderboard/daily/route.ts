@@ -28,7 +28,7 @@ export async function GET(request: Request) {
         return {
           rank: index + 1, // indexを利用すればfindIndexより高速です
           userId: s.userId,
-          display: user?.displayName || 'Unknown',
+          displayName: user?.displayName || 'Unknown',
           score: s.score?.total ?? 0,
         };
       })
