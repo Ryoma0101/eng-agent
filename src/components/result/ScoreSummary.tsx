@@ -28,7 +28,8 @@ export default function ScoreSummary({ total, scoredAt }: ScoreSummaryProps) {
 
       <div className="mt-4 flex flex-wrap gap-4 border-t border-slate-100 pt-4 text-xs text-slate-400">
         <span>
-          採点日時: <span className="font-mono">{new Date(scoredAt).toLocaleString()}</span>
+          採点日時:{' '}
+          <span className="font-mono">{new Date(scoredAt).toLocaleDateString('ja-JP')}</span>
         </span>
       </div>
     </Card>

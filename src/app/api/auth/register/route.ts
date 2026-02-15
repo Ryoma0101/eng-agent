@@ -5,7 +5,7 @@ import { NextResponse } from 'next/server';
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { uid, displayName, email } = body;
+    const { uid, displayName, email, photoURL = null } = body;
     if (!uid || !displayName || !email) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
@@ -13,10 +13,23 @@ export async function POST(request: Request) {
     // 既存ユーザーならそのまま返す（ログインの度に呼ばれるため）
     const existing = await UserRepository.FindUserById(uid);
     if (existing) {
-      return NextResponse.json(existing, { status: 200 });
+      await UserRepository.updateUserProfile(uid, {
+        displayName,
+        email,
+        photoURL,
+      });
+      return NextResponse.json(
+        {
+          ...existing,
+          displayName,
+          email,
+          photoURL,
+        },
+        { status: 200 }
+      );
     }
 
-    const user = await UserService.createUser(uid, displayName, email);
+    const user = await UserService.createUser(uid, displayName, email, photoURL);
     return NextResponse.json(user, { status: 201 });
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';

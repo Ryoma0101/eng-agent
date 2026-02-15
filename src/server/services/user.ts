@@ -1,13 +1,18 @@
 import { UserRepository } from '../repositories/user';
 
 export const UserService = {
-  async createUser(userId: string, displayName: string, email: string) {
+  async createUser(
+    userId: string,
+    displayName: string,
+    email: string,
+    photoURL: string | null = null
+  ) {
     const existingUser = await UserRepository.FindByEmail(email);
     if (existingUser) {
       throw new Error('User with this email already exists');
     }
-    await UserRepository.createUser(userId, displayName, email);
-    return { id: userId, displayName, email };
+    await UserRepository.createUser(userId, displayName, email, photoURL);
+    return { id: userId, displayName, email, photoURL };
   },
 
   async FindUserById(uid: string) {

@@ -8,6 +8,24 @@ import AnswerForm from '@/components/quest/AnswerForm';
 import { apiClient, ApiError } from '@/lib/api-client';
 import type { Quest } from '@/types';
 
+interface SubmissionCreateResponse {
+  submissionId: string;
+  questId: string;
+  userId: string;
+  answer: string;
+  wordCount: number;
+  score: {
+    grammar: number;
+    logic: number;
+    context: number;
+    fluency: number;
+    total: number;
+  };
+  feedback: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export default function QuestPage() {
   const router = useRouter();
 
@@ -45,13 +63,13 @@ export default function QuestPage() {
       setSubmitting(true);
       setError(null);
 
-      await apiClient('/api/submissions/create', {
+      const created = await apiClient<SubmissionCreateResponse>('/api/submissions/create', {
         method: 'POST',
         body: { questId: quest.questId, answer },
       });
 
       // 採点完了後 Result 画面へ遷移
-      router.push('/result');
+      router.push(`/result?submissionId=${created.submissionId}`);
     } catch (err) {
       setError(
         err instanceof ApiError ? err.message : '提出に失敗しました。もう一度お試しください。'
