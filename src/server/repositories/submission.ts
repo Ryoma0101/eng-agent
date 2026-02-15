@@ -61,7 +61,7 @@ export const SubmissionRepository = {
     wordCount: number,
     score: { grammar: number; logic: number; context: number; fluency: number; total: number },
     feedback: string
-  ): Promise<void> {
+  ): Promise<string> {
     const submissionsRef = collection(db, 'submissions');
     const submissionDocRef = doc(submissionsRef);
     const newSubmission = {
@@ -75,6 +75,7 @@ export const SubmissionRepository = {
       updatedAt: new Date(),
     };
     await setDoc(submissionDocRef, newSubmission);
+    return submissionDocRef.id;
   },
 
   async GetSubmissionByUserIdAndQuestId(
