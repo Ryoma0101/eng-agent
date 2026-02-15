@@ -27,7 +27,6 @@ export const mockTodayQuest: Quest = {
   wordCountMax: 200,
   difficulty: 'medium',
   category: 'economics',
-  isActive: true,
 };
 
 // --- ユーザー統計 ---
