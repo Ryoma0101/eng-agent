@@ -28,6 +28,8 @@ export async function GET(request: Request) {
       {
         submissionId: submission.id,
         questId: submission.questId,
+        questTitle: quest.title,
+        prompt: quest.prompt,
         userId: submission.userId,
         answer: submission.answer,
         wordCount: submission.wordCount,

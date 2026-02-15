@@ -6,6 +6,7 @@ import Header from '@/components/shared/Header';
 import ScoreSummary from '@/components/result/ScoreSummary';
 import ScoreBreakdown from '@/components/result/ScoreBreakdown';
 import FeedbackCard from '@/components/result/FeedbackCard';
+import { Card } from '@/components/ui/card';
 
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Home } from 'lucide-react';
@@ -15,6 +16,8 @@ import type { Scores } from '@/types';
 interface SubmissionResult {
   submissionId: string;
   questId: string;
+  questTitle: string;
+  prompt: string;
   userId: string;
   answer: string;
   wordCount: number;
@@ -75,6 +78,25 @@ function ResultContent() {
         <h1 className="mb-6 text-3xl font-bold text-slate-900">採点完了！</h1>
 
         <div className="space-y-6">
+          {/* Topic */}
+          <Card className="p-6">
+            <h2 className="mb-2 text-lg font-semibold text-slate-900">トピック</h2>
+            <p className="text-base font-medium text-slate-800">{result.questTitle}</p>
+          </Card>
+
+          {/* Question */}
+          <Card className="p-6">
+            <h2 className="mb-2 text-lg font-semibold text-slate-900">質問</h2>
+            <p className="leading-relaxed whitespace-pre-wrap text-slate-700">{result.prompt}</p>
+          </Card>
+
+          {/* Your answer */}
+          <Card className="p-6">
+            <h2 className="mb-2 text-lg font-semibold text-slate-900">あなたの回答</h2>
+            <p className="mb-2 text-sm text-slate-500">{result.wordCount} words</p>
+            <p className="leading-relaxed whitespace-pre-wrap text-slate-700">{result.answer}</p>
+          </Card>
+
           {/* 総合スコア */}
           <ScoreSummary total={result.scores.total} scoredAt={result.updatedAt} />
 
