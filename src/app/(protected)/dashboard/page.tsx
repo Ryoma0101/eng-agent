@@ -4,10 +4,8 @@ import { useEffect, useState } from 'react';
 import Header from '@/components/shared/Header';
 import QuestCard from '@/components/dashboard/QuestCard';
 import StatsCards from '@/components/dashboard/StatsCards';
-import RecentSubmissions from '@/components/dashboard/RecentSubmissions';
 import { useAuth } from '@/lib/firebase/auth-context';
 import { apiClient } from '@/lib/api-client';
-import { mockRecentSubmissions } from '@/lib/mock-data';
 import type { Quest, UserStats } from '@/types';
 
 export default function DashboardPage() {
@@ -53,11 +51,6 @@ export default function DashboardPage() {
         {/* Stats */}
         <div className="mb-6">
           <StatsCards stats={stats ?? { todayScore: 0, rank: 0, streak: 0 }} />
-        </div>
-
-        {/* Recent Submissions - TODO: API接続 */}
-        <div className="mb-6">
-          <RecentSubmissions submissions={mockRecentSubmissions} />
         </div>
       </main>
     </div>
